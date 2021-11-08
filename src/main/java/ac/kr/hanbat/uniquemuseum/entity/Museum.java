@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Entity
 @Builder
@@ -26,10 +27,10 @@ public class Museum extends BaseEntity{
     private String number; // 전화번호
 
     private String convenienceFacilityInformation; //편의 시설 정보
-    private LocalDateTime weekdaysOpen; // 평일 오픈 시간
-    private LocalDateTime weekdaysClose; // 평일 클로즈 시간
-    private LocalDateTime weekendOpen; // 주말 오픈 시간
-    private LocalDateTime weekendClose; // 주말 클로즈 시간
+    private LocalTime weekdaysOpen; // 평일 오픈 시간
+    private LocalTime weekdaysClose; // 평일 클로즈 시간
+    private LocalTime weekendOpen; // 주말 오픈 시간
+    private LocalTime weekendClose; // 주말 클로즈 시간
     private String closingInformation; // 휴관 정보
     private Integer adultAdmissionFee; // 성인 관람료
     private Integer teenagerAdmissionFee; // 청소년 관람료

@@ -16,7 +16,7 @@ public class MuseumImage {
     private Long inum; // 이미지 번호
     private String uuid; // 이미지 고유번호
     private String imgName; // 이미지 이름
-    private String path; // 이미지 경로
+    private String path; // 이미지 경로, 년/월/일 구조
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Museum museum;

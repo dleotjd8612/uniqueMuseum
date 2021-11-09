@@ -22,8 +22,10 @@ public interface MuseumRepository extends JpaRepository<Museum, Long> {
             "left outer join Review r on r.museum = m group by m")
     Page<Object[]> getListPage(Pageable pageable); // 페이지 처리
 
-    @Query("select m, mi from Museum m " +
-            "left outer join MuseumImage mi on mi.museum = m " +
-            "where m.mno = :mno")
+    @Query("select m, mi, avg(coalesce(r.grade, 0)), count(r) " +
+            "from Museum m left outer join MuseumImage mi on mi.museum = m " +
+            "left outer join Review r on r.museum = m " +
+            "where m.mno = :mno group by mi")
     List<Object[]> getMuseumWithAll(@Param("mno") Long mno); // 특정 영화 조회
+
 }

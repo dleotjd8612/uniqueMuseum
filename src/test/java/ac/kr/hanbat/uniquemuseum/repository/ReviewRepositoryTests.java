@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
 import java.util.stream.IntStream;
 
 @SpringBootTest
@@ -29,5 +30,21 @@ public class ReviewRepositoryTests {
 
             reviewRepository.save(review);
         });
+    }
+
+    @Test
+    public void testGetMuseumReviews() {
+        Museum museum = Museum.builder().mno(98L).build();
+
+        List<Review> result = reviewRepository.findByMuseum(museum);
+
+        result.forEach(museumReview -> {
+            System.out.println(museumReview.getReviewNum());
+            System.out.println("\t" + museumReview.getGrade());
+            System.out.println("\t" + museumReview.getText());
+            System.out.println("\t" + museumReview.getMember().getEmail());
+            System.out.println("----------------------------------------");
+        });
+
     }
 }

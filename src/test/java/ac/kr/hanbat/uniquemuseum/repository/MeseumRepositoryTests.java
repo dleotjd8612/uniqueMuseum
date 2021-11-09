@@ -13,6 +13,7 @@ import org.springframework.test.annotation.Commit;
 import javax.transaction.Transactional;
 import java.time.LocalTime;
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.IntStream;
 
@@ -67,5 +68,14 @@ public class MeseumRepositoryTests {
         PageRequest pageRequest = PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "mno"));
         Page<Object[]> result = museumRepository.getListPage(pageRequest);
         for(Object[] objects : result.getContent()) System.out.println(Arrays.toString(objects));
+    }
+
+    @Test
+    public void testGetMuseumWithAll() {
+        List<Object[]> result = museumRepository.getMuseumWithAll(100L);
+
+        System.out.println(result);
+
+        for(Object[] arr : result) System.out.println(Arrays.toString(arr));
     }
 }

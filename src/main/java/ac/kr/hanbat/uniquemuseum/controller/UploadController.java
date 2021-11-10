@@ -2,6 +2,7 @@ package ac.kr.hanbat.uniquemuseum.controller;
 
 import ac.kr.hanbat.uniquemuseum.dto.UploadResultDTO;
 import lombok.extern.log4j.Log4j2;
+import net.coobird.thumbnailator.Thumbnailator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -43,7 +44,7 @@ public class UploadController {
                     log.warn("this file is not image type");
                     return new ResponseEntity<>(HttpStatus.FORBIDDEN);
                 }
-            }catch (NullPointerException e) {
+            } catch (NullPointerException e) {
                 e.printStackTrace();
             }
             // 실제 파일 이름 IE나 Edge는 전체 경로가 들어오므로
@@ -58,7 +59,14 @@ public class UploadController {
             String saveName = uploadPath + File.separator + folderPath + File.separator + uuid + "_" + fileName;
             Path savePath = Paths.get(saveName);
             try {
-                file.transferTo(savePath); // 실제 이미지 저장
+                // 실제 이미지 저장(원본)
+                file.transferTo(savePath);
+                // 섬네일 생성
+                String thumbnailSaveName = uploadPath + File.separator + folderPath + File.separator + "s_" + uuid + "_" + fileName;
+                // 섬네일 파일 이름은 중간에 s_로 시작하도록
+                File thumbnailFile = new File(thumbnailSaveName);
+                // 섬네일 생성
+                Thumbnailator.createThumbnail(savePath.toFile(), thumbnailFile, 100, 100);
                 resultDTOList.add(new UploadResultDTO(fileName, uuid, folderPath));
             } catch (IOException e) {
                 e.printStackTrace();

@@ -1,6 +1,7 @@
 package ac.kr.hanbat.uniquemuseum.entity;
 
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -27,6 +28,7 @@ public class Museum extends BaseEntity{
     private String number; // 전화번호
 
     private String convenienceFacilityInformation; //편의 시설 정보
+//    @DateTimeFormat(pattern = "hh:mm")
     private LocalTime weekdaysOpen; // 평일 오픈 시간
     private LocalTime weekdaysClose; // 평일 클로즈 시간
     private LocalTime weekendOpen; // 주말 오픈 시간

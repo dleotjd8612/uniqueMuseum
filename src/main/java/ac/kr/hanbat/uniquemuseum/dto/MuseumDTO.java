@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +30,11 @@ public class MuseumDTO {
     private Integer childrenAdmissionFee; // 어린이 관람료
     private String admissionFeeInformation; // 관람료 정보
 
-    // 박물관 이미지들...
     @Builder.Default
-    private List<MuseumImageDTO> imageDTOList = new ArrayList<>();
+    private List<MuseumImageDTO> imageDTOList = new ArrayList<>(); // 박물관 이미지들...
+
+    private double avg; // 박물관 리뷰 평점
+    private int reviewCnt; // 리뷰 개수
+    private LocalDateTime regDate; // 박물관 등록 시간
+    private LocalDateTime modDate; // 박물관 최종 수정 시간
 }

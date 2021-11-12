@@ -2,6 +2,8 @@ package ac.kr.hanbat.uniquemuseum.service;
 
 import ac.kr.hanbat.uniquemuseum.dto.MuseumDTO;
 import ac.kr.hanbat.uniquemuseum.dto.MuseumImageDTO;
+import ac.kr.hanbat.uniquemuseum.dto.PageRequestDTO;
+import ac.kr.hanbat.uniquemuseum.dto.PageResultDTO;
 import ac.kr.hanbat.uniquemuseum.entity.Museum;
 import ac.kr.hanbat.uniquemuseum.entity.MuseumImage;
 
@@ -14,6 +16,7 @@ import java.util.stream.Collectors;
 
 public interface MuseumService {
     Long register(MuseumDTO museumDTO); // 박물관 등록
+    PageResultDTO<MuseumDTO, Object[]> getList(PageRequestDTO pageRequestDTO); // 박물관 리스트
 
     default Map<String, Object> dtoToEntity(MuseumDTO museumDTO) {
         Map<String, Object> entityMap = new HashMap<>();
@@ -38,7 +41,6 @@ public interface MuseumService {
         entityMap.put("museum", museum);
 
         List<MuseumImageDTO> imageDTOList = museumDTO.getImageDTOList();
-        System.out.println("MuseumService - cccccccccccccccccc:" + imageDTOList.toString());
 
         if(imageDTOList != null && imageDTOList.size() > 0) {
             List<MuseumImage> museumImageList = imageDTOList.stream().map(museumImageDTO -> {
@@ -54,4 +56,40 @@ public interface MuseumService {
         }
         return entityMap;
     }
+
+    default MuseumDTO entitiesToDTO(Museum museum, List<MuseumImage> museumImages, Double avg, Long reviewCnt) {
+        MuseumDTO museumDTO = MuseumDTO.builder()
+                .mno(museum.getMno())
+                .name(museum.getName())
+                .address(museum.getAddress())
+                .number(museum.getNumber())
+                .convenienceFacilityInformation(museum.getConvenienceFacilityInformation())
+                .weekdaysOpen(museum.getWeekdaysOpen().format(DateTimeFormatter.ofPattern("mm:ss")))
+                .weekdaysClose(museum.getWeekdaysClose().format(DateTimeFormatter.ofPattern("mm:ss")))
+                .weekendOpen(museum.getWeekendOpen().format(DateTimeFormatter.ofPattern("mm:ss")))
+                .weekendClose(museum.getWeekendClose().format(DateTimeFormatter.ofPattern("mm:ss")))
+                .closingInformation(museum.getClosingInformation())
+                .adultAdmissionFee(museum.getAdultAdmissionFee())
+                .teenagerAdmissionFee(museum.getTeenagerAdmissionFee())
+                .childrenAdmissionFee(museum.getChildrenAdmissionFee())
+                .admissionFeeInformation(museum.getAdmissionFeeInformation())
+                .regDate(museum.getRegDate())
+                .modDate(museum.getModDate())
+                .build();
+
+        List<MuseumImageDTO> museumImageDTOList = museumImages.stream().map(museumImage -> {
+           return MuseumImageDTO.builder()
+                   .imgName(museumImage.getImgName())
+                   .path(museumImage.getPath())
+                   .uuid(museumImage.getUuid())
+                   .build();
+        }).collect(Collectors.toList());
+
+        museumDTO.setImageDTOList(museumImageDTOList);
+        museumDTO.setAvg(avg);
+        museumDTO.setReviewCnt(reviewCnt.intValue());
+
+        return museumDTO;
+    }
+
 }

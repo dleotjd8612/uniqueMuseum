@@ -3,205 +3,263 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>aaa</title>
+    <title>이색 박물관 등록</title>
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+
     <style>
         .uploadResult {
-        width: 100%;
-        background-color: gray;
-        margin-top: 10px;
-    }
-    .uploadResult ul {
-        display: flex;
-        flex-flow: row;
-        justify-content: center;
-        align-items: center;
-        vertical-align: top;
-        overflow: auto;
-    }
-    .uploadResult ul li {
-        list-style: none;
-        padding: 10px;
-        margin-left: 2em;
-    }
-    .uploadResult ul li img {
-        width: 100px;
-    }
+            width: 100%;
+            background-color: gray;
+            margin-top: 10px;
+        }
+
+        .uploadResult ul {
+            display: flex;
+            flex-flow: row;
+            justify-content: center;
+            align-items: center;
+            vertical-align: top;
+            overflow: auto;
+        }
+
+        .uploadResult ul li {
+            list-style: none;
+            padding: 10px;
+            margin-left: 2em;
+        }
+
+        .uploadResult ul li img {
+            width: 100px;
+        }
     </style>
 </head>
 <body>
-    <th:block th:replace="~{layout/basic::setContent(~{this::content})}">
-        <th:block th:fragment="content">
-            <h1 class="mt-4">박물관 등록</h1><br>
+<th:block th:replace="~{layout/basic::setContent(~{this::content})}">
+    <th:block th:fragment="content">
+        <h1 class="mt-4">박물관 등록</h1><br>
+        <form th:action="@{/museum/register}" th:method="post">
+            <div class="form-group">
+                <label>박물관 이름</label>
+                <input type="text" class="form-control" name="name" placeholder="박물관명을 입력하시오.">
+            </div>
 
-            <form th:action="@{/museum/register}" th:method="post">
-                <div class="form-group">
-                    <label>박물관 이름</label>
-                    <input type="text" class="form-control" name="name" placeholder="박물관명을 입력하시오.">
+            <!-- 박물관 정보 추가 해야 함 -->
+            <div class="form-group">
+                <label>박물관 주소</label>
+                <input type="text" class="form-control" name="address" placeholder="박물관 주소를 입력하시오.">
+            </div>
+            <div class="form-group">
+                <label>박물관 전화번호</label>
+                <input type="text" class="form-control" name="number" placeholder="박물관 전화번호를 입력하시오.">
+            </div>
+            <div class="form-group">
+                <label>편의 시설 정보</label>
+                <input type="text" class="form-control" name="convenienceFacilityInformation"
+                       placeholder="편의 시설 정보를 입력하시오.">
+            </div>
+            <div class="form-group">
+                <label>평일 운영 시간</label>
+                <input type="time" class="form-control" name="weekdaysOpen" value="09:00">
+                <input type="time" class="form-control" name="weekdaysClose" value="18:00">
+            </div>
+            <div class="form-group">
+                <label>주말 운영 시간</label>
+                <input type="time" class="form-control" name="weekendOpen" value="09:00">
+                <input type="time" class="form-control" name="weekendClose" value="18:00">
+            </div>
+            <div class="form-group">
+                <label>휴관 정보</label>
+                <input type="text" class="form-control" name="closingInformation" placeholder="휴관 정보를 입력하시오.">
+            </div>
+            <div class="form-group">
+                <label>성인 관람료</label>
+                <input type="text" class="form-control" name="adultAdmissionFee" pattern="[0-9]+" th:value="0"
+                       placeholder="금액을 입력하시오.">
+            </div>
+            <div class="form-group">
+                <label>청소년 관람료</label>
+                <input type="text" class="form-control" name="teenagerAdmissionFee" pattern="[0-9]+" th:value="0"
+                       placeholder="금액을 입력하시오.">
+            </div>
+            <div class="form-group">
+                <label>어린이 관람료</label>
+                <input type="text" class="form-control" name="childrenAdmissionFee" pattern="[0-9]+" th:value="0"
+                       placeholder="금액을 입력하시오.">
+            </div>
+            <div class="form-group">
+                <label>관람료 정보</label>
+                <input type="text" class="form-control" name="admissionFeeInformation" placeholder="관람료 정보를 입력하시오.">
+            </div>
+            <div class="form-group fileForm">
+                <label>이미지</label>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input files" id="fileInput" multiple>
+                    <label class="custom-file-label" data-browse="Browse"></label>
                 </div>
+            </div>
+            <div class="box">
 
-                <!-- 박물관 정보 추가 해야 함 -->
-                <div class="form-group">
-                    <label>박물관 주소</label>
-                    <input type="text" class="form-control" name="address" placeholder="박물관 주소를 입력하시오.">
-                </div>
-                <div class="form-group">
-                    <label>박물관 전화번호</label>
-                    <input type="text" class="form-control" name="number" placeholder="박물관 전화번호를 입력하시오.">
-                </div>
-                <div class="form-group">
-                    <label>편의 시설 정보</label>
-                    <input type="text" class="form-control" name="convenienceFacilityInformation" placeholder="편의 시설 정보를 입력하시오.">
-                </div>
-                <div class="form-group">
-                    <label>평일 운영 시간</label>
-                    <input type="time" class="form-control" name="weekdaysOpen" value="09:00">
-                    <input type="time" class="form-control" name="weekdaysClose" value="18:00">
-                </div>
-                <div class="form-group">
-                    <label>주말 운영 시간</label>
-                    <input type="time" class="form-control" name="weekendOpen" value="09:00">
-                    <input type="time" class="form-control" name="weekendClose" value="18:00">
-                </div>
-                <div class="form-group">
-                    <label>휴관 정보</label>
-                    <input type="text" class="form-control" name="closingInformation" placeholder="휴관 정보를 입력하시오.">
-                </div>
-                <div class="form-group">
-                    <label>성인 관람료</label>
-                    <input type="text" class="form-control" name="adultAdmissionFee" pattern="[0-9]+" th:value="0" placeholder="금액을 입력하시오.">
-                </div>
-                <div class="form-group">
-                    <label>청소년 관람료</label>
-                    <input type="text" class="form-control" name="teenagerAdmissionFee" pattern="[0-9]+" th:value="0" placeholder="금액을 입력하시오.">
-                </div>
-                <div class="form-group">
-                    <label>어린이 관람료</label>
-                    <input type="text" class="form-control" name="childrenAdmissionFee" pattern="[0-9]+" th:value="0" placeholder="금액을 입력하시오.">
-                </div>
-                <div class="form-group">
-                    <label>관람료 정보</label>
-                    <input type="text" class="form-control" name="admissionFeeInformation" placeholder="관람료 정보를 입력하시오.">
-                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">전송</button>
 
-                <div class="form-group fileForm">
-                    <label>이미지 파일</label>
-                    <div class="custom-file">
-                        <input type="file" class="custom-file-input files" id="fileInput" multiple>
-                        <label class="custom-file-label" data-browse="Browse"></label>
-                    </div>
-                </div>
+            <div class="uploadResult">
+                <ul>
 
-                <div class="box">
+                </ul>
+            </div>
+        </form>
 
-                </div>
+        <script>
+            $(document).ready(function (e) {
+                var regex = new RegExp("(.*?)\.(exe|sh|zip|alz|tiff)$"); // 정규 표현식을 이용한 파일 확장자 검사
+                var maxSize = 10485760; // 10MByte, 이미지 파일 최대 크기
 
-                <button type="submit" class="btn btn-primary">전송</button>
-
-                <div class="uploadResult">
-                    <ul>
-
-                    </ul>
-                </div>
-            </form>
-
-            <script>
-                $(document).ready(function (e) {
-                    var regex = new RegExp("(.*?)\.(exe|sh|zip|alz|tiff)$");
-                    var maxSize = 10485760; // 10MB
-
-                    function checkExtension(fileName, fileSize) {
-                        if(fileSize >= maxSize) {
-                            alert("파일 사이즈 초과");
-                            return false;
-                        }
-                        if(regex.test(fileName)) {
-                            alert("해당 종류의 파일은 업로드할 수 없습니다.");
-                            return false;
-                        }
-                        return true;
+                function checkExtension(fileName, fileSize) { // 이미지 파일 크기 및 확장자 검사
+                    if(fileSize >= maxSize) { // 이미지 파일 크기 검사
+                        alert("파일 사이즈 초과");
+                        return false;
                     }
 
-                    $(".custom-file-input").on("change", function () {
-                        var fileName = $(this).val().split("\\").pop();
-                        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+                    if(regex.test(fileName)) { // 파일 확장자 검사
+                        alert("해당 종류의 파일은 업로드 할 수 없습니다.");
+                        return false;
+                    }
+                    return  true;
+                }
 
-                        var formData = new FormData();
-                        var inputFile = $(this);
-                        var files = inputFile[0].files;
-                        var appended = false;
+                // click(): 단순하게 정적페이지에 로드된 요소에 클릭이벤트를 처리하고자 할때 자주 사용, 주로 버튼 클릭 시 이벤트 발생
+                // change(): 이벤트는 요소(element)의 값이 변경될 때 발생, 주로 selete, checkbox, radio 요소에서 선택한 요소가 변경 시 이벤트 발생
+                // on(): 주체가 되는 부모속성의 이벤트를 물려받아서 지정 선택자에게 이벤트를 연결
+                $(".custom-file-input").on("change", function () {
+                    // split(): String 객체를 지정한 구분자를 이용하여 여러 개의 문자열로 나눕니다.
+                    // pop(): 나뉜 문자열에서 마지막의 문자열 값을 가져옵니다.
+                    var fileName = $(this).val().split("\\").pop();
 
-                        for(var i = 0; i < files.length; i++) {
-                            if(!checkExtension(files[i].name, files[i].size)) {
-                                return false;
-                            }
-                            console.log(files[i]);
-                            formData.append("uploadFiles", files[i]);
-                            appended = true;
+                    // siblings(): 선택한 요소의 형제(sibling) 요소 중에서 지정한 선택자에 해당하는 요소를 모두 선택한다.
+                    // addClass(): 선택한 요소에 클래스 값을 추가
+                    // html(): <selete> 태그내에 존재하는 자식태그을 통째로 읽어올때 사용
+                    $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+
+                    // FormData(): ajax로 폼 전송을 가능하게 해주는 FormData 객체 생성
+                    // 보통은 Ajax로 폼(form 태그) 전송을 할 일이 거의 없지만, 이미지를 ajax로 업로드할 때 필요
+                    var formData = new FormData();
+
+                    // this: 해당 이벤트가 발생한 요소를 표시, javascript
+                    // $(this): 이벤트가 발생하면 발생한 태그를 Object 형태로 감싸서 보여준다, Jquery
+                    // this === $(this)[0]
+                    var inputFile = $(this);
+
+                    // 영화 이미지의 파일들의 정보를 가져온다.
+                    var files = inputFile[0].files;
+
+                    var appended = false; // 업로드 여부를 위한 변수
+
+                    for(var i = 0; i <files.length; i++) {
+                        // 이미지들의 최대 크기 및 확장자 검사
+                        if(!checkExtension(files[i].name, files[i].size)) {
+                            return false;
                         }
-
-                        // upload를 하지 않는다.
-                        if(!appended) {return;}
-
-                        for(var value of formData.values()) {
-                            console.log(value);
-                        }
-
-                        //실제 업로드 부분
-                        //upload ajax
-                        $.ajax({
-                           url: '/uploadAjax',
-                           processData: false,
-                           contentType: false,
-                           data: formData,
-                           type: 'POST',
-                           dataType: 'json',
-                           success: function (result) {
-                               console.log(result);
-                               showResult(result);
-                           },
-                            error: function (jqXHR, textStatus, errorThrown) {
-                               console.log(textStatus);
-                            }
-                        });
-                    });
-
-                    // 이미지 업로드 시 이미지 보이기
-                    function showResult(uploadResultArr) {
-                        var uploadUL = $(".uploadResult ul");
-                        var str = "";
-                        $(uploadResultArr).each(function (i, obj) {
-                            str += "<li data-name='" + obj.fileName + "' data-path='" + obj.folderPath + "' data-uuid='" + obj.uuid + "'>";
-                            str += " <div>";
-                            str += "<button type='button' data-file=\'" + obj.imageURL + "\' ";
-                            str += "class='btn-warning btn-sm'>X</button><br>";
-                            str += "<img src='/display?fileName=" + obj.thumbnailURL + "'>";
-                            str += "</div>";
-                            str += "</li>";
-                        });
-                        uploadUL.append(str);
+                        console.log(files[i]);
+                        // append(): 선택된 요소의 마지막에 새로운 요소나 콘텐츠를 추가
+                        formData.append("uploadFiles", files[i]);
+                        appended = true;
                     }
 
-                    // 이미지 파일의 삭제와 submit 처리
-                    $(".uploadResult").on("click", "li button", function (e) {
-                        console.log("delete file");
-                        var targetFile = $(this).data("file");
-                        var targetLi = $(this).closest("li");
+                    // upload를 하지 않는다.
+                    if(!appended) { return; }
 
-                        $.ajax({
-                            url: '/removeFile',
-                            data: {fileName: targetFile},
-                            dataType: 'text',
-                            type: 'POST',
-                            success: function (result) {
-                                alert(result);
-                                targetLi.remove();
-                            }
-                        });
+                    // formData에 있는 데이터를 하나씩 가져와서 개발자 도구의 콘솔창에 데이터 확인
+                    for(var value of formData.values()) {
+                        console.log(value);
+                    }
+
+                    // 실제 업로드 부분, upload ajax
+                    $.ajax({
+                        url: '/uploadAjax',
+                        processData: false,
+                        contentType: false,
+                        data: formData,
+                        type: 'POST',
+                        dataType: 'json',
+                        beforeSend: function (jqXHR, settings) {
+                            var header = $("meta[name='_csrf_header']").attr("content");
+                            var token = $("meta[name='_csrf']").attr("content");
+                            jqXHR.setRequestHeader(header, token);
+                        },
+                        success: function (result) {
+                            console.log(result);
+                            // 나중에 화면 처리
+                            showResult(result);
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            console.log(textStatus);
+                        }
                     });
 
                 });
-            </script>
-        </th:block>
+
+                // 이미지 업로드 시 이미지 보이기
+                function showResult(uploadResultArr) {
+                    var uploadUL = $(".uploadResult ul");
+                    var str = "";
+                    $(uploadResultArr).each(function (i, obj) {
+                        str += "<li data-name='" + obj.fileName + "' data-path='" + obj.folderPath + "' data-uuid='" + obj.uuid + "'>";
+                        str += " <div>";
+                        str += "<button type='button' data-file=\'" + obj.imageURL + "\' ";
+                        str += "class='btn-warning btn-sm'>X</button><br>";
+                        str += "<img src='/display?fileName=" + obj.thumbnailURL + "'>";
+                        str += "</div>";
+                        str += "</li>";
+                    });
+                    uploadUL.append(str);
+                }
+
+                // 이미지 파일의 삭제와 submit 처리
+                $(".uploadResult").on("click", "li button", function (e) {
+                    console.log("delete file");
+                    var targetFile = $(this).data("file");
+                    var targetLi = $(this).closest("li");
+
+                    $.ajax({
+                        url: '/removeFile',
+                        data: {fileName: targetFile},
+                        dataType: 'text',
+                        type: 'POST',
+                        beforeSend: function (jqXHR, settings) {
+                            var header = $("meta[name='_csrf_header']").attr("content");
+                            var token = $("meta[name='_csrf']").attr("content");
+                            jqXHR.setRequestHeader(header, token);
+                        },
+                        success: function (result) {
+                            alert(result);
+                            targetLi.remove();
+                        }
+                    });
+                });
+
+                $(".btn-primary").on("click", function (e){
+                    // a 태그나 submit 태그는 누르게 되면 href 를 통해 이동하거나, 창이 새로고침하여 실행됩니다. preventDefault 를 통해 이러한 동작을 막아줄 수 있습니다.
+                    e.preventDefault();
+
+                    var str = "";
+
+                    $(".uploadResult li").each(function (i, obj) {
+                        var target = $(obj);
+
+                        str += "<input type='hidden' name='imageDTOList["+i+"].imgName' value='" + target.data('name') + "'>";
+                        str += "<input type='hidden' name='imageDTOList["+i+"].path' value='" + target.data('path') + "'>";
+                        str += "<input type='hidden' name='imageDTOList["+i+"].uuid' value='" + target.data('uuid') + "'>";
+
+                    });
+                    // 태그들이 추가된 것을 확인한 후에 comment를 제거
+                    $(".box").html(str);
+                    $("form").submit();
+                });
+
+            });
+        </script>
     </th:block>
+</th:block>
 </body>
 </html>

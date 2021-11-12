@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +20,7 @@ public class MuseumServiceImpl implements MuseumService {
     private final MuseumRepository museumRepository;
     private final MuseumImageRepository museumImageRepository;
 
+    @Transactional
     @Override
     public Long register(MuseumDTO museumDTO) { // 박물관 등록
         Map<String, Object> entityMap = dtoToEntity(museumDTO);

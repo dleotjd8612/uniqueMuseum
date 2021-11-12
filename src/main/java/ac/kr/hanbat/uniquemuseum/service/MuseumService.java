@@ -38,6 +38,7 @@ public interface MuseumService {
         entityMap.put("museum", museum);
 
         List<MuseumImageDTO> imageDTOList = museumDTO.getImageDTOList();
+        System.out.println("MuseumService - cccccccccccccccccc:" + imageDTOList.toString());
 
         if(imageDTOList != null && imageDTOList.size() > 0) {
             List<MuseumImage> museumImageList = imageDTOList.stream().map(museumImageDTO -> {

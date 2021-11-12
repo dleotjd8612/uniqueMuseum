@@ -4,10 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Column;
-import java.time.LocalTime;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +29,7 @@ public class MuseumDTO {
     private Integer childrenAdmissionFee; // 어린이 관람료
     private String admissionFeeInformation; // 관람료 정보
 
+    // 박물관 이미지들...
     @Builder.Default
-    private List<MuseumImageDTO> imageDTOList = new ArrayList<>(); // 박물관 이미지들...
+    private List<MuseumImageDTO> imageDTOList = new ArrayList<>();
 }

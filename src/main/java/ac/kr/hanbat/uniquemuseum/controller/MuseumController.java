@@ -8,6 +8,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -26,11 +27,15 @@ public class MuseumController {
     @PostMapping("register")
     public String register(MuseumDTO museumDTO, RedirectAttributes redirectAttributes) {
         log.info("museumDTO: " + museumDTO);
-
+        // Museum 객체와 Museum 이미지 List<> 객체를 DB에 저장 후 박물관 번호만 가져옴
         Long mno = museumService.register(museumDTO);
 
+        // addAttribute로 전달한 값은 url뒤에 붙으며, 리프레시(새로고침)해도 데이터가 유지
+        // addFlashAttribute로 전달한 값은 url뒤에 붙지 않는다. 일회성이라 리프레시할 경우 데이터가 소멸한다.
+        // 또한 2개이상 쓸 경우, 데이터는 소멸한다. 따라서 맵을 이용하여 한번에 값을 전달해야한다.
         redirectAttributes.addFlashAttribute("msg", mno);
 
+        // Museum과 Museum 이미지들을 DB에 등록 후 목록 페이지로 이동
         return "redirect:/museum/list";
     }
 
@@ -38,5 +43,23 @@ public class MuseumController {
     public void list(PageRequestDTO pageRequestDTO, Model model) {
         log.info("pageRequestDTO: " + pageRequestDTO);
         model.addAttribute("result", museumService.getList(pageRequestDTO));
+    }
+
+    // @ModelAttribute
+    // 1) @ModelAttribute 어노테이션이 붙은 객체를 자동으로 생성한다.
+    // 2) 생성된 오브젝트에(PageRequestDTO) HTTP로 넘어 온 값들을 자동으로 바인딩한다.
+    // 3) 마지막으로 @ModelAttribute 어노테이션이 붙은 객체(PageRequestDTO 객체)가 자동으로 Model 객체에 추가되고 뷰단으로 전달된다.
+    @GetMapping("read")
+    public void read(long mno, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, Model model) {
+        log.info("mno: " + mno);
+        MuseumDTO museumDTO = museumService.getMuseum(mno);
+        model.addAttribute("dto", museumDTO);
+    }
+
+    @GetMapping("modify")
+    public void modify(long mno, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, Model model) {
+        log.info("mno: " + mno);
+        MuseumDTO museumDTO = museumService.getMuseum(mno);
+        model.addAttribute("dto", museumDTO);
     }
 }

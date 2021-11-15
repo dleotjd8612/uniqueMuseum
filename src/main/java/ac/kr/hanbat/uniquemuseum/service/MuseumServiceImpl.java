@@ -16,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -56,5 +57,20 @@ public class MuseumServiceImpl implements MuseumService {
         ));
 
         return new PageResultDTO<>(result, fn);
+    }
+
+    @Override
+    public MuseumDTO getMuseum(Long mno) {
+        List<Object[]> result = museumRepository.getMuseumWithAll(mno);
+        Museum museum = (Museum) result.get(0)[0]; // Museum Entity는 가장 앞에 존재 - 모든 Row가 동일한 값
+        List<MuseumImage> museumImageList = new ArrayList<>(); // 박물관 이미지 개수만큼 객체 필요
+        result.forEach(arr -> {
+            MuseumImage museumImage = (MuseumImage) arr[1];
+            museumImageList.add(museumImage);
+        });
+        Double avg = (Double) result.get(0)[2]; // 평균 평점 - 모든 행이 동일한 값
+        Long reviewCnt = (Long) result.get(0)[3]; // 리뷰 개수 - 모든 행이 동일한 값
+
+        return entitiesToDTO(museum, museumImageList, avg, reviewCnt);
     }
 }

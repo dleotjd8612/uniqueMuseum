@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
     <title>이색 박물관</title>
 
     <!-- Bootstrap core CSS -->
@@ -23,10 +25,37 @@
     <script th:src="@{/starrr.js}"></script>
     <link th:href="@{/css/starrr.css}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
+
+    <style>
+        .uploadResult {
+            width: 100%;
+            background-color: gray;
+            margin-top: 10px;
+        }
+
+        .uploadResult ul {
+            display: flex;
+            flex-flow: row;
+            justify-content: center;
+            align-items: center;
+            vertical-align: top;
+            overflow: auto;
+        }
+
+        .uploadResult ul li {
+            list-style: none;
+            padding: 10px;
+            margin-left: 2em;
+        }
+
+        .uploadResult ul li img {
+            width: 100px;
+        }
+    </style>
 </head>
 
 <body>
-<div class="d-flex" id="wrapper">
+<!--<div class="d-flex" id="wrapper">-->
 
     <!-- Sidebar -->
 <!--    <div class="bg-light border-right" id="sidebar-wrapper">-->
@@ -46,7 +75,7 @@
     <div id="page-content-wrapper">
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-            <a href="/"><button class="btn btn-primary" id="menu-toggle">이색 박물관 로고</button></a>
+            <a th:href="@{/}"><label>이색 박물관 로고</label></a>
 
 <!--            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">-->
 <!--                <span class="navbar-toggler-icon"></span>-->
@@ -81,7 +110,7 @@
     </div>
     <!-- /#page-content-wrapper -->
 
-</div>
+<!--</div>-->
 <!-- /#wrapper -->
 
 <!-- Menu Toggle Script -->

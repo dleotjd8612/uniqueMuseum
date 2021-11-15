@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 public interface MuseumService {
     Long register(MuseumDTO museumDTO); // 박물관 등록
     PageResultDTO<MuseumDTO, Object[]> getList(PageRequestDTO pageRequestDTO); // 박물관 리스트
+    MuseumDTO getMuseum(Long mno); // 박물관 상세 정보
 
     default Map<String, Object> dtoToEntity(MuseumDTO museumDTO) {
         Map<String, Object> entityMap = new HashMap<>();

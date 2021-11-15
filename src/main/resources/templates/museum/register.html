@@ -38,20 +38,20 @@
 <th:block th:replace="~{layout/basic::setContent(~{this::content})}">
     <th:block th:fragment="content">
         <h1 class="mt-4">박물관 등록</h1><br>
-        <form th:action="@{/museum/register}" th:method="post">
+        <form th:action="@{/museum/register}" th:method="post" name="form" onsubmit="return empty_check();">
             <div class="form-group">
                 <label>박물관 이름</label>
-                <input type="text" class="form-control" name="name" placeholder="박물관명을 입력하시오.">
+                <input type="text" class="form-control" id="name" name="name" placeholder="박물관명을 입력하시오.">
             </div>
 
             <!-- 박물관 정보 추가 해야 함 -->
             <div class="form-group">
                 <label>박물관 주소</label>
-                <input type="text" class="form-control" name="address" placeholder="박물관 주소를 입력하시오.">
+                <input type="text" class="form-control" id="address" name="address" placeholder="박물관 주소를 입력하시오.">
             </div>
             <div class="form-group">
                 <label>박물관 전화번호</label>
-                <input type="text" class="form-control" name="number" placeholder="박물관 전화번호를 입력하시오.">
+                <input type="text" class="form-control" id="number" name="number" placeholder="박물관 전화번호를 입력하시오.">
             </div>
             <div class="form-group">
                 <label>편의 시설 정보</label>
@@ -101,7 +101,7 @@
             <div class="box">
 
             </div>
-            <button type="submit" class="btn btn-primary">전송</button>
+            <button type="submit" class="btn btn-primary" >전송</button>
 
             <div class="uploadResult">
                 <ul>
@@ -258,6 +258,19 @@
                 });
 
             });
+
+            function empty_check() {
+                if(form.name.value === '') {
+                    form.name.focus();
+                    return false;
+                } else if(form.address.value ==='') {
+                    form.address.focus();
+                    return false;
+                } else if(form.number.value ==='') {
+                    form.number.focus();
+                    return false;
+                } else return true;
+            }
         </script>
     </th:block>
 </th:block>

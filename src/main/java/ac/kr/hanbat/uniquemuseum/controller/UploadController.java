@@ -39,7 +39,6 @@ public class UploadController {
     // HTTP 상태 코드 표 : https://developer.mozilla.org/ko/docs/Web/HTTP/Status
     @PostMapping("/uploadAjax")
     public ResponseEntity<List<UploadResultDTO>> uploadFile(MultipartFile[] uploadFiles) { // 파일 업로드
-        log.info("uploadAjaxaaaaaaaaaaaaaaaaaa:" + uploadFiles[0].toString());
 
         // UploadResultDTO 클래스 타입의 List 컬렉션 객체 생성
         List<UploadResultDTO> resultDTOList = new ArrayList<>();

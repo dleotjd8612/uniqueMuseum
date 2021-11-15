@@ -1,10 +1,12 @@
 package ac.kr.hanbat.uniquemuseum.controller;
 
 import ac.kr.hanbat.uniquemuseum.dto.MuseumDTO;
+import ac.kr.hanbat.uniquemuseum.dto.PageRequestDTO;
 import ac.kr.hanbat.uniquemuseum.service.MuseumService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,5 +32,11 @@ public class MuseumController {
         redirectAttributes.addFlashAttribute("msg", mno);
 
         return "redirect:/museum/list";
+    }
+
+    @GetMapping("list")
+    public void list(PageRequestDTO pageRequestDTO, Model model) {
+        log.info("pageRequestDTO: " + pageRequestDTO);
+        model.addAttribute("result", museumService.getList(pageRequestDTO));
     }
 }

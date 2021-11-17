@@ -17,16 +17,12 @@ public class Museum extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long mno; // 박물관 번호
-
     @Column(nullable = false)
     private String name; // 이름
-
     @Column(nullable = false)
     private String address; // 주소
-
     @Column(nullable = false)
     private String number; // 전화번호
-
     private String convenienceFacilityInformation; //편의 시설 정보
 //    @DateTimeFormat(pattern = "hh:mm")
     private LocalTime weekdaysOpen; // 평일 오픈 시간

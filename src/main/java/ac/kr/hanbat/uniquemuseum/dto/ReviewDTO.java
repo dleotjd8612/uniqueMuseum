@@ -12,7 +12,6 @@ public class ReviewDTO {
     private Long reviewNum; // 리뷰 번호
     private Long mno; // 박물관 번호
 
-    private Long mid; // 회원 ID
     private String nickname; // 회원 닉네임
     private String email; // 회원 이메일
     

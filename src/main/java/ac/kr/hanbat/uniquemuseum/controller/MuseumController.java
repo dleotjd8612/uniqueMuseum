@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-@Controller
-@RequestMapping("museum")
+@Controller // @Controller의 역할은 Model 객체를 만들어 데이터를 담고 View를 찾는 것
+@RequestMapping("museum") // URL을 컨트롤러의 메서드와 매핑할 때 사용
 @Log4j2
-@RequiredArgsConstructor
+@RequiredArgsConstructor // final이 붙거나 @NotNull 이 붙은 필드의 생성자를 자동 생성해주는 롬복 어노테이션
 public class MuseumController {
     private final MuseumService museumService;
 

@@ -80,10 +80,10 @@ public interface MuseumService {
 
         List<MuseumImageDTO> museumImageDTOList = museumImages.stream().map(museumImage -> {
            return MuseumImageDTO.builder()
-                   .imgName(museumImage.getImgName())
-                   .path(museumImage.getPath())
-                   .uuid(museumImage.getUuid())
-                   .build();
+                .imgName(museumImage.getImgName())
+                .path(museumImage.getPath())
+                .uuid(museumImage.getUuid())
+                .build();
         }).collect(Collectors.toList());
 
         museumDTO.setImageDTOList(museumImageDTOList);
@@ -92,5 +92,4 @@ public interface MuseumService {
 
         return museumDTO;
     }
-
 }

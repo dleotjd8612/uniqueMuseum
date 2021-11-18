@@ -31,19 +31,19 @@ public class ReviewServiceImpl implements ReviewService{
     public Long register(ReviewDTO museumReviewDTO) { // 박물관의 리뷰를 추가
         Review museumReview = dtoToEntity(museumReviewDTO); // 사용자가 등록한 댓글의 데이터를 DB에 넣기 위해 Entity로 변환
         reviewRepository.save(museumReview); // 변환된 Entity 객체를 DB에 저장
-        return museumReview.getReviewNum(); // DB에 저장된 댓글의 번호만 돌려줌
+        return museumReview.getReviewnum(); // DB에 저장된 댓글의 번호만 돌려줌
     }
 
     @Override
     public void modify(ReviewDTO museumReviewDTO) {
         // findById: review 테이블에서 리뷰 번호(ID)를 이용하여 데이터 조회(Hibernate가 쿼리문 날려줌)
         // Optional<>: Optional 객체를 사용하면 예상치 못한 NullPointerException 예외를 제공되는 메소드로 간단히 회피
-        Optional<Review> result = reviewRepository.findById(museumReviewDTO.getReviewNum());
+        Optional<Review> result = reviewRepository.findById(museumReviewDTO.getReviewnum());
 
         if(result.isPresent()) { // 박물관에 댓글이 존재하다면...
             Review museumReview = result.get(); // 댓글의 객체를 가져옴
-            museumReview.changeGrade(museumReview.getGrade()); // 사용자가 새로 변경한 평점을 변경함
-            museumReview.changeText(museumReview.getText()); // 사용자가 새로 변경한 댓글 내용을 변경함
+            museumReview.changeGrade(museumReviewDTO.getGrade()); // 사용자가 새로 변경한 평점을 변경함
+            museumReview.changeText(museumReviewDTO.getText()); // 사용자가 새로 변경한 댓글 내용을 변경함
             
             reviewRepository.save(museumReview); // DB에 변경된 데이터 수정
         }

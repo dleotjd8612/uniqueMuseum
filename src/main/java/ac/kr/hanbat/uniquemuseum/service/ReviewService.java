@@ -19,7 +19,7 @@ public interface ReviewService {
 
     default Review dtoToEntity(ReviewDTO museumReviewDTO) {
         Review museumReview = Review.builder()
-                .reviewNum(museumReviewDTO.getReviewNum())
+                .reviewnum(museumReviewDTO.getReviewnum())
                 .museum(Museum.builder().mno(museumReviewDTO.getMno()).build())
                 .member(Member.builder().email(museumReviewDTO.getEmail()).build()) // 추후 clubmember로 변경해야 함
                 .grade(museumReviewDTO.getGrade())
@@ -30,7 +30,7 @@ public interface ReviewService {
 
     default ReviewDTO entityToDto(Review museumReview) {
         ReviewDTO museumReviewDTO = ReviewDTO.builder()
-                .reviewNum(museumReview.getReviewNum()) // 리뷰 번호
+                .reviewnum(museumReview.getReviewnum()) // 리뷰 번호
                 .mno(museumReview.getMuseum().getMno()) // 박물관 번호
                 .email(museumReview.getMember().getEmail()) // 회원 이메일(ID)
                 .nickname(museumReview.getMember().getNickname()) // 회원 닉네임

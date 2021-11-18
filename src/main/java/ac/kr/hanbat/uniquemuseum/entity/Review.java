@@ -13,7 +13,7 @@ import javax.persistence.*;
 public class Review extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long reviewNum; // 리뷰 번호
+    private Long reviewnum; // 리뷰 번호
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Museum museum; // 1:N 연관 관계

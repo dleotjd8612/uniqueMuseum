@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReviewDTO {
-    private Long reviewNum; // 리뷰 번호
+    private Long reviewnum; // 리뷰 번호
     private Long mno; // 박물관 번호
 
     private String nickname; // 회원 닉네임

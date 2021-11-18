@@ -34,27 +34,26 @@ public class ReviewController {
         log.info("---------- add museumReview ------------");
         log.info("reviewDTO: " + museumReviewDTO);
 
-        Long reviewNum = reviewService.register(museumReviewDTO);
+        Long reviewnum = reviewService.register(museumReviewDTO);
 
-        return new ResponseEntity<>(reviewNum, HttpStatus.OK);
+        return new ResponseEntity<>(reviewnum, HttpStatus.OK);
     }
 
-    @PutMapping("/{mno}/{reviewNum}")
-    public ResponseEntity<Long> modifyReview(@PathVariable Long reviewNum, @RequestBody ReviewDTO museumReviewDTO) {
+    @PutMapping("/{mno}/{reviewnum}")
+    public ResponseEntity<Long> modifyReview(@PathVariable Long reviewnum, @RequestBody ReviewDTO museumReviewDTO) {
         log.info("------------ modify MuseumReview ------------");
         log.info("reviewDTO: " + museumReviewDTO);
-
         reviewService.modify(museumReviewDTO);
-        return new ResponseEntity<>(reviewNum, HttpStatus.OK);
+        return new ResponseEntity<>(reviewnum, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{mno}/{reviewNum}")
-    public ResponseEntity<Long> removeReview(@PathVariable Long reviewNum) {
+    @DeleteMapping("/{mno}/{reviewnum}")
+    public ResponseEntity<Long> removeReview(@PathVariable Long reviewnum) {
         log.info("------------- modify removeReview -----------");
-        log.info("reviewNum: " + reviewNum);
+        log.info("reviewnum: " + reviewnum);
 
-        reviewService.remove(reviewNum);
+        reviewService.remove(reviewnum);
 
-        return new ResponseEntity<>(reviewNum, HttpStatus.OK);
+        return new ResponseEntity<>(reviewnum, HttpStatus.OK);
     }
 }

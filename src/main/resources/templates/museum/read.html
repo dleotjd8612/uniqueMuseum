@@ -186,7 +186,7 @@
                            jqXHR.setRequestHeader(header, token);
                        },
                        success: function (result) {
-                           console.log("result: " + result);
+                           console.log("reviewSaveBtn result: " + result);
                            self.location.reload();
                        }
                    });
@@ -226,7 +226,7 @@
                             //     + '<span>' + ", 수정 날짜: "+ formatTime(review.modDate) + '</span></h6><hr>';
                             // str += ' </div>';
 
-                            str += ' <div class="card-body" data-reviewNum=' + review.reviewNum + ' data-email=' + review.email +'>';
+                            str += ' <div class="card-body" data-reviewnum=' + review.reviewnum + ' data-email=' + review.email + '>';
                             str += ' <h5 class="card-title">' + review.text + ' <span>' + review.grade + '</span></h5>';
                             str += ' <h6 class="card-subtitle mb-2 text-muted">' + review.nickname + '</h6>';
                             str += ' <p class="card-text">' + formatTime(review.regDate) + '</p>';
@@ -255,7 +255,54 @@
                     $('.reviewModal').modal('show');
                 });
 
+                $(".modifyBtn").on("click", function (){
+                    let data = {reviewnum: reviewnum, mno:mno, grade:grade, text: inputText.val(), email: inputEmail.val()};
 
+                    console.log("modifyBtn: " + data);
+                    // for(var i in data) {
+                    //     console.log(i + ":" + data[i]);
+                    // }
+
+                    $.ajax({
+                        url: '/reviews/' + mno + "/" + reviewnum,
+                        type: "PUT",
+                        data:JSON.stringify(data),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "text",
+                        beforeSend: function (jqXHR, settings) {
+                            var header = $("meta[name='_csrf_header']").attr("content");
+                            var token = $("meta[name='_csrf']").attr("content");
+                            jqXHR.setRequestHeader(header, token);
+                        },
+                        success: function (result) {
+                            console.log("modify result: " + result);
+                            self.location.reload();
+                        }
+                    });
+                });
+                reviewModal.modal('hide');
+
+                $(".removeBtn").on("click", function (){
+                   let data = {reviewnum: reviewnum};
+                   console.log("removeBtn: " + data);
+
+                    $.ajax({
+                        url:'/reviews/' + mno + "/" + reviewnum,
+                        type:"DELETE",
+                        contentType:"application/json; charset=utf-8",
+                        dataType:"text",
+                        beforeSend: function (jqXHR, settings) {
+                            var header = $("meta[name='_csrf_header']").attr("content");
+                            var token = $("meta[name='_csrf']").attr("content");
+                            jqXHR.setRequestHeader(header, token);
+                        },
+                        success: function (result) {
+                            console.log("remove result: " + result);
+                            self.location.reload();
+                        }
+                    });
+                    reviewModal.modal('hide');
+                });
             });
         </script>
 

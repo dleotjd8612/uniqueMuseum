@@ -22,4 +22,9 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     @Modifying
     @Query("delete from Review mr where mr.member = :member")
     void deleteByMember(@Param("member") Member member); // 차후 클럽멤버로 변경해야 함, 회원 삭제
+
+    @Modifying
+    @Query("delete from Review mr where mr.museum.mno = :mno")
+    void deleteByReviews(@Param("mno") Long mno); // 등록된 박물관 게시판 삭제 전 리뷰 삭제
+
 }

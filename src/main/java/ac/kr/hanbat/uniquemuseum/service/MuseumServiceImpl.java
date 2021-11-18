@@ -7,6 +7,7 @@ import ac.kr.hanbat.uniquemuseum.entity.Museum;
 import ac.kr.hanbat.uniquemuseum.entity.MuseumImage;
 import ac.kr.hanbat.uniquemuseum.repository.MuseumImageRepository;
 import ac.kr.hanbat.uniquemuseum.repository.MuseumRepository;
+import ac.kr.hanbat.uniquemuseum.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
@@ -28,6 +29,7 @@ import java.util.function.Function;
 public class MuseumServiceImpl implements MuseumService {
     private final MuseumRepository museumRepository;
     private final MuseumImageRepository museumImageRepository;
+    private final ReviewRepository reviewRepository;
 
     @Transactional
     @Override
@@ -72,5 +74,12 @@ public class MuseumServiceImpl implements MuseumService {
         Long reviewCnt = (Long) result.get(0)[3]; // 리뷰 개수 - 모든 행이 동일한 값
 
         return entitiesToDTO(museum, museumImageList, avg, reviewCnt);
+    }
+
+    @Override
+    public void removeMuseum(Long mno) { // 박물관 삭제
+        reviewRepository.deleteByReviews(mno); // 박물관 삭제 전 리뷰들 삭제
+        museumImageRepository.deleteByImages(mno); // 박물관 삭제 전 박물관 이미지들 삭제
+        museumRepository.deleteById(mno); // 박물관 삭제
     }
 }

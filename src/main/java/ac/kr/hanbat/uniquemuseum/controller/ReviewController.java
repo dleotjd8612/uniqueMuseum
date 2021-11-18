@@ -24,6 +24,7 @@ public class ReviewController {
         log.info("MNO:" + mno);
 
         List<ReviewDTO> reviewDTOList = reviewService.getListOfMovie(mno);
+        log.info(reviewDTOList);
         // ResponseEntity<>: HTTP 요청(Request) 또는 응답(Response)에 해당하는 HttpHeader와 HttpBody를 포함하는 클래스
         return new ResponseEntity<>(reviewDTOList, HttpStatus.OK);
     }

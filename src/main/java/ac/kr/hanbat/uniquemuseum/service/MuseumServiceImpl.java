@@ -51,7 +51,6 @@ public class MuseumServiceImpl implements MuseumService {
         Pageable pageable = pageRequestDTO.getPageable(Sort.by("mno").descending());
 
         Page<Object[]> result = museumRepository.getListPage(pageable);
-        log.info(result);
 
         // Object[]: 영화, 영화 이미지 리스트, 평점 평균, 리뷰 개수의 객체들을 DTO 타입으로 변환
         // asList(): 일반 배열을 arrayList로 변환

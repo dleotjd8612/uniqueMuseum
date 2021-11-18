@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{layout/basic::setContent(~{this::content})}">
+    <th:block th:fragment="content">
+        <h1 class="mt-4">박물관 수정</h1>
+
+        <form action="/museum/modify" method="post">
+<!--        페이지 번호        -->
+            <input type="hidden" name="page" th:value="${requestDTO.page}">
+            <input type="hidden" name="type" th:value="${requestDTO.type}">
+            <input type="hidden" name="keyword" th:value="${requestDTO.keyword}">
+
+            <div class="form-group">
+                <input type="hidden" class="form-control" name="mno" th:value="${dto.mno}">
+            </div>
+            <div class="form-group">
+                <label>박물관 이름</label>
+                <input type="text" class="form-control" id="name" name="name" th:value="${dto.name}" >
+            </div>
+            <div class="form-group">
+                <label>박물관 주소</label>
+                <input type="text" class="form-control" id="address" name="address" th:value="${dto.address}" >
+            </div>
+            <div class="form-group">
+                <label>박물관 전화번호</label>
+                <input type="text" class="form-control" id="number" name="number" th:value="${dto.number}" >
+            </div>
+            <div class="form-group">
+                <label>리뷰 개수</label>
+                <input type="text" class="form-control" name="reviewCnt" th:value="${dto.reviewCnt}" readonly>
+            </div>
+            <div class="form-group">
+                <label>평균 평점</label>
+                <input type="text" class="form-control" name="avg" th:value="${dto.avg}" readonly>
+            </div>
+            <div class="form-group">
+                <label>편의 시설 정보</label>
+                <input type="text" class="form-control" name="convenienceFacilityInformation" th:value="${dto.convenienceFacilityInformation}" >
+            </div>
+            <div class="form-group">
+                <label>평일 운영 시간</label>
+                <input type="time" class="form-control" name="weekdaysOpen" value="09:00" th:value="${dto.weekdaysOpen}" >
+                <input type="time" class="form-control" name="weekdaysClose" value="18:00" th:value="${dto.weekdaysClose}" >
+            </div>
+            <div class="form-group">
+                <label>주말 운영 시간</label>
+                <input type="time" class="form-control" name="weekendOpen" value="09:00" th:value="${dto.weekendOpen}" >
+                <input type="time" class="form-control" name="weekendClose" value="18:00" th:value="${dto.weekendClose}" >
+            </div>
+            <div class="form-group">
+                <label>휴관 정보</label>
+                <input type="text" class="form-control" name="closingInformation" th:value="${dto.closingInformation}" >
+            </div>
+            <div class="form-group">
+                <label>성인 관람료</label>
+                <input type="text" class="form-control" name="adultAdmissionFee" th:value="${dto.adultAdmissionFee}" >
+            </div>
+            <div class="form-group">
+                <label>청소년 관람료</label>
+                <input type="text" class="form-control" name="teenagerAdmissionFee"  th:value="${dto.teenagerAdmissionFee}" >
+            </div>
+            <div class="form-group">
+                <label>어린이 관람료</label>
+                <input type="text" class="form-control" name="childrenAdmissionFee"  th:value="${dto.childrenAdmissionFee}" >
+            </div>
+            <div class="form-group">
+                <label>관람료 정보</label>
+                <input type="text" class="form-control" name="admissionFeeInformation" th:value="${dto.admissionFeeInformation}" >
+            </div>
+        </form>
+
+<!--        <a th:href="@{/museum/modify(mno=${dto.mno}, page=${requestDTO.page}, type=${requestDTO.type}, keyword=${requestDTO.keyword})}">-->
+            <button type="button" class="btn btn-primary modifyBtn">수정</button>
+<!--        </a>-->
+<!--        <a th:href="@{/museum/list(page=${requestDTO.page}, type=${requestDTO.type}, keyword=${requestDTO.keyword})}">-->
+            <button type="button" class="btn btn-info listBtn">목록</button>
+<!--        </a>-->
+        <button type="button" class="btn btn-danger removeBtn">삭제</button>
+
+        <script th:inline="javascript">
+            var actionForm = $("form"); // 폼 태그 객체
+
+            $(".modifyBtn").click(function (){
+                if(!confirm("수정하시겠습니까?")) {
+                    return;
+                }
+
+                actionForm
+                .attr("action", "/museum/modify") // attr()은 요소(element)의 속성(attribute)의 값을 추가
+                .attr("method", "post")
+                actionForm.submit();
+            });
+
+            $(".listBtn").click(function (){
+                let page = $("input[name='page']");
+                let type = $("input[name='type']");
+                let keyword = $("input[name='keyword']");
+
+                actionForm.empty(); //form 태그 내의 모든 파라미터 삭제
+
+                console.log(actionForm.html()); //먼저 확인 후에 주석 처리
+                actionForm.submit();
+            });
+
+            $(".removeBtn").click(function (){
+                actionForm
+                    .attr("action", "/museum/remove")
+                    .attr("method", "post")
+                actionForm.submit();
+            });
+        </script>
+    </th:block>
+</th:block>
+</html>

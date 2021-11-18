@@ -1,34 +1,5 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <style>
-        .uploadResult {
-            width: 100%;
-            background-color: gray;
-            margin-top: 10px;
-        }
-
-        .uploadResult ul {
-            display: flex;
-            flex-flow: row;
-            justify-content: center;
-            align-items: center;
-            vertical-align: top;
-            overflow: auto;
-        }
-
-        .uploadResult ul li {
-            list-style: none;
-            padding: 10px;
-            margin-left: 2em;
-        }
-
-        .uploadResult ul li img {
-            width: 100px;
-        }
-    </style>
-</head>
 <th:block th:replace="~{layout/basic::setContent(~{this::content})}">
     <th:block th:fragment="content">
         <h1 class="mt-4">박물관 상세 페이지</h1>
@@ -99,8 +70,191 @@
             <span class="badge badge-light">[[${dto.reviewCnt}]]</span>
         </button>
 
+        <button type="button" class="btn btn-info addReviewBtn">리뷰 작성</button>
+        <div class="list-group reviewList">
+
+        </div>
+
+<!--    모달창    -->
+<!--    음의 정수값(보통 tabindex="-1"): 연속 키보드 탐색으로 접근할 수는 없으나 JavaScript나 시각적(마우스 클릭)으로는 포커스 가능함을 뜻, 보통 JavaScript를 사용한 위젯의 접근성 확보를 위해 사용 -->
+<!--    role="dialog": HTML 기반의 애플리케이션의 다이얼로그 또는 콘텐츠를 분리하는 창 또는 다른 웹 애플리케이션의 UI 혹은 페이지를 마크업하는데 사용    -->
+        <div class="reviewModal modal" tabindex="-1" role="dialog">
+<!--        role="document": 보조 기술 사용자가 읽기 모드에서 검색 할 수 있다는 내용이 포함 된 상위 컨테이너    -->
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">[[${dto.name}]] 박물관 리뷰 작성</h5>
+
+<!--                    data-dismiss="modal": 다이어로그(모달창) 닫기 -->
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>작성자 ID</label>
+                            <input type="text" class="form-control" name="email">
+                        </div>
+                        <div class="form-group">
+                            <label>평점<span class="grade"></span></label>
+                            <div class="starrr"></div>
+                        </div>
+                        <div class="form-group">
+                            <label>내용</label>
+                            <input type="text" class="form-control" name="text" placeholder="리뷰를 작성해주세요.">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                        <button type="button" class="btn btn-primary reviewSaveBtn">저장</button>
+                        <button type="button" class="btn btn-warning modifyBtn">수정</button>
+                        <button type="button" class="btn btn-danger removeBtn">삭제</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<!--    이미지 모달    -->
+        <div class="imageModal modal " tabindex="-2" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">박물관 이미지</h5>
+
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <script>
             $(document).ready(function (e) {
+                let grade = 0;
+                let mno = [[${dto.mno}]];
+
+                // https://github.com/dobtco/starrr
+                $('.starrr').starrr({
+                    rating: grade,
+                    change: function (e, value) {
+                        if(value) {
+                            console.log("평점 개수:" + value);
+                            grade = value;
+                        }
+                    }
+                });
+
+                // $(".reviewModal").modal("show"); //미리보기 용
+
+                let reviewModal = $(".reviewModal");
+                let inputEmail = $('input[name="email"]');
+                let inputText = $('input[name="text"]');
+
+                // 리뷰 작성 버튼 클릭 시...
+                $(".addReviewBtn").click(function () {
+                    inputEmail.val("");
+                    inputText.val("");
+
+                    $(".removeBtn, .modifyBtn").hide(); // 삭제, 수정 버튼 숨김 처리
+                    $(".reviewSaveBtn").show(); // 저장 버튼 보임 처리
+
+                    reviewModal.modal('show'); // 모달창 띄우기
+                });
+
+                // 리뷰 작성 후 저장 버튼 클릭시...
+                $('.reviewSaveBtn').click(function () {
+                   let data = {mno:mno, grade:grade, text:inputText.val(), email:inputEmail.val()};
+
+                   console.log("data: " + data);
+
+                   $.ajax({
+                       url:'/reviews/' + mno,
+                       type:"POST",
+                       data:JSON.stringify(data),
+                       contentType:"application/json; charset=utf-8",
+                       dataType:"text",
+                       beforeSend: function (jqXHR, settings) {
+                           var header = $("meta[name='_csrf_header']").attr("content");
+                           var token = $("meta[name='_csrf']").attr("content");
+                           jqXHR.setRequestHeader(header, token);
+                       },
+                       success: function (result) {
+                           console.log("result: " + result);
+                           self.location.reload();
+                       }
+                   });
+                   reviewModal.modal('hide'); // 저장 버튼 클릭 후 모달창 닫기
+                });
+
+                // 페이지가 열리면 바로 리뷰 데이터들을 가져와서 사용
+                function getMuseumReviews() {
+
+                    function formatTime(str) {
+                        let date = new Date(str);
+
+                        return date.getFullYear() + '.' +
+                            (date.getMonth() + 1) + '.' +
+                            date.getDate() + ' ' +
+                            date.getHours() + ':' +
+                            date.getMinutes();
+                    }
+
+                    // $.getJSON(url, data): GET HTTP 요청을 사용하여 서버에서 JSON 인코딩 데이터를 로드
+                    // $.getJSON(): 첫번째 매개변수로 JSON 파일을 로드한다, 두번째 매개변수(콜백함수)에서 JSON 파일을 이용하여 로드된 데이터를 처리한다.
+                    $.getJSON("/reviews/" + mno + "/all", function (arr) {
+                        var str = "";
+
+                        // .each(배열 or 객체, ): object 와 배열 모두에서 사용할 수 있는 일반적인 반복 함수
+                        $.each(arr, function (idx, review) {
+                            // console.log("review: " + review);
+                            // 객체의 key와 value 값 가져오기
+                            for(let key in review) {
+                              console.log(key + " : " + review[key]);
+                            };
+
+                            // str += ' <div class="card-body" data-reviewNum=' + review.reviewNum + ' data-email=' + review.email +'>';
+                            // str += ' <h5 class="card-title">' + review.text + ' <span>' + review.grade + '</span></h5>';
+                            // str += ' <h6 class="card-subtitle mb-2 text-muted">' + "닉네임: " +  review.nickname + '</h6>';
+                            // str += ' <h6 class="card-subtitle mb-2 text-muted">' + "등록 날짜: " + formatTime(review.regDate)
+                            //     + '<span>' + ", 수정 날짜: "+ formatTime(review.modDate) + '</span></h6><hr>';
+                            // str += ' </div>';
+
+                            str += ' <div class="card-body" data-reviewNum=' + review.reviewNum + ' data-email=' + review.email +'>';
+                            str += ' <h5 class="card-title">' + review.text + ' <span>' + review.grade + '</span></h5>';
+                            str += ' <h6 class="card-subtitle mb-2 text-muted">' + review.nickname + '</h6>';
+                            str += ' <p class="card-text">' + formatTime(review.regDate) + '</p>';
+                            str += ' </div>';
+                        });
+                        $(".reviewList").html(str);
+                    });
+                }
+                getMuseumReviews();
+
+                // 특정한 리뷰창 선택하기
+                let reviewnum;
+                $(".reviewList").on("click", ".card-body", function () {
+                    $(".reviewSaveBtn").hide();
+                    $(".removeBtn, .modifyBtn").show();
+
+                    let targetReview = $(this);
+
+                    reviewnum = targetReview.data("reviewnum");
+                    inputEmail.val(targetReview.data("email"));
+                    inputText.val(targetReview.find('.card-title').clone().children().remove().end().text());
+
+                    let grade = targetReview.find('.card-title span').html();
+                    $(".starrr a:nth-child("+grade+")").trigger('click');
+
+                    $('.reviewModal').modal('show');
+                });
+
 
             });
         </script>

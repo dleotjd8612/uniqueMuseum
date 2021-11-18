@@ -62,4 +62,28 @@ public class MuseumController {
         MuseumDTO museumDTO = museumService.getMuseum(mno);
         model.addAttribute("dto", museumDTO);
     }
+
+    @PostMapping("modify") // 박물관 수정
+    public String modify(MuseumDTO dto, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, RedirectAttributes redirectAttributes) {
+        log.info("post modify...............");
+        log.info("dto:" + dto);
+
+        museumService.modify(dto);
+
+        redirectAttributes.addAttribute("page", requestDTO.getPage());
+        redirectAttributes.addAttribute("type", requestDTO.getType());
+        redirectAttributes.addAttribute("keyword", requestDTO.getKeyword());
+
+        redirectAttributes.addAttribute("mno", dto.getMno());
+
+        return "redirect:/museum/read";
+    }
+    
+    @PostMapping("remove") // 박물관 삭제
+    public String remove(long mno, RedirectAttributes redirectAttributes) {
+        log.info("mno: " + mno);
+        museumService.remove(mno);
+        redirectAttributes.addFlashAttribute("msg", mno);
+        return "redirect:/museum/list";
+    }
 }

@@ -12,6 +12,7 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 @ToString
 public class Museum extends BaseEntity{
     @Id
@@ -24,7 +25,6 @@ public class Museum extends BaseEntity{
     @Column(nullable = false)
     private String number; // 전화번호
     private String convenienceFacilityInformation; //편의 시설 정보
-//    @DateTimeFormat(pattern = "hh:mm")
     private LocalTime weekdaysOpen; // 평일 오픈 시간
     private LocalTime weekdaysClose; // 평일 클로즈 시간
     private LocalTime weekendOpen; // 주말 오픈 시간
@@ -34,4 +34,12 @@ public class Museum extends BaseEntity{
     private Integer teenagerAdmissionFee; // 청소년 관람료
     private Integer childrenAdmissionFee; // 어린이 관람료
     private String admissionFeeInformation; // 관람료 정보
+
+//    public void changeName(String name) {
+//        this.name = name;
+//    }
+//    public void changeAddress(String address) {
+//        this.address = address;
+//    }
+
 }

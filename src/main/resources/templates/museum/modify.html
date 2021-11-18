@@ -4,7 +4,7 @@
     <th:block th:fragment="content">
         <h1 class="mt-4">박물관 수정</h1>
 
-        <form action="/museum/modify" method="post">
+        <form th:action="@{/museum/modify}" method="post">
 <!--        페이지 번호        -->
             <input type="hidden" name="page" th:value="${requestDTO.page}">
             <input type="hidden" name="type" th:value="${requestDTO.type}">

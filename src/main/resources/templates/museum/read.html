@@ -60,7 +60,7 @@
 
         <div class="uploadResult">
             <ul>
-                <li th:each="museumImage: ${dto.imageDTOList}">
+                <li th:each="museumImage: ${dto.imageDTOList}" th:data-file="${museumImage.getThumbnailURL()}">
                     <img th:if="${museumImage.path != null}" th:src="|/display?fileName=${museumImage.getThumbnailURL()}|">
                 </li>
             </ul>
@@ -302,6 +302,15 @@
                         }
                     });
                     reviewModal.modal('hide');
+                });
+
+                $(".uploadResult li").click(function (){
+                   var file = $(this).data('file');
+                   console.log("uploadResult li:" + file);
+                   // 모달창 body에 이미지 태그 추가, size 파라미터의 값을 이용해서 원본 이미지를 가져옴
+                   $('.imageModal .modal-body').html("<img style='width:100%' src='/display?fileName=" + file + "&size=1' >");
+                   // 모달창에서 원본 이미지 보기
+                   $(".imageModal").modal("show");
                 });
             });
         </script>

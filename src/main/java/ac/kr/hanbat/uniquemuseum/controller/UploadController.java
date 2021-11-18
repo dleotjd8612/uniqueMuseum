@@ -124,7 +124,7 @@ public class UploadController {
 
     //    @PreAuthorize("permitAll()")
     @GetMapping("/display")
-    public ResponseEntity<byte[]> getFile(String fileName) {
+    public ResponseEntity<byte[]> getFile(String fileName, String size) {
         ResponseEntity<byte[]> result = null;
 
         try {
@@ -132,6 +132,12 @@ public class UploadController {
             log.info("filename: " + srcFileName);
             File file = new File(uploadPath + File.separator + srcFileName);
             log.info("file: " + file);
+
+            // size를 이용해서 원본 파일인지 섬네일인지 구분, 1 = 원본
+            if(size != null && size.equals("1")) {
+                file = new File(file.getParent(), file.getName().substring(2));
+            }
+
             HttpHeaders header = new HttpHeaders();
             // MIME타입 처리
             header.add("Content-Type", Files.probeContentType(file.toPath()));

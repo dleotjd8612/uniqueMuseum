@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <th:block th:replace="~{layout/basic::setContent(~{this::content})}">
     <th:block th:fragment="content">
-        <h1 class="mt-4">박물관 상세 페이지</h1>
+        <h1 class="mt-4">[[${dto.name}]] 박물관</h1>
         <div class="form-group">
             <label>박물관 이름</label>
             <input type="text" class="form-control" id="name" name="name" th:value="${dto.name}" readonly>

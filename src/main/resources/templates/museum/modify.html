@@ -2,9 +2,9 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <th:block th:replace="~{layout/basic::setContent(~{this::content})}">
     <th:block th:fragment="content">
-        <h1 class="mt-4">박물관 수정</h1>
+        <h1 class="mt-4">[[${dto.name}]] 박물관</h1>
 
-        <form th:action="@{/museum/modify}" method="post">
+        <form th:action="@{/museum/modify}" method="post" name="form">
 <!--        페이지 번호        -->
             <input type="hidden" name="page" th:value="${requestDTO.page}">
             <input type="hidden" name="type" th:value="${requestDTO.type}">
@@ -15,15 +15,15 @@
             </div>
             <div class="form-group">
                 <label>박물관 이름</label>
-                <input type="text" class="form-control" id="name" name="name" th:value="${dto.name}" >
+                <input type="text" class="form-control" id="name" name="name" th:value="${dto.name}" placeholder="박물관 이름을 입력해주세요.">
             </div>
             <div class="form-group">
                 <label>박물관 주소</label>
-                <input type="text" class="form-control" id="address" name="address" th:value="${dto.address}" >
+                <input type="text" class="form-control" id="address" name="address" th:value="${dto.address}" placeholder="주소를 입력해주세요.">
             </div>
             <div class="form-group">
                 <label>박물관 전화번호</label>
-                <input type="text" class="form-control" id="number" name="number" th:value="${dto.number}" >
+                <input type="text" class="form-control" id="number" name="number" th:value="${dto.number}" placeholder="전화번호를 입력해주세요.">
             </div>
             <div class="form-group">
                 <label>리뷰 개수</label>
@@ -72,23 +72,39 @@
 <!--        <a th:href="@{/museum/modify(mno=${dto.mno}, page=${requestDTO.page}, type=${requestDTO.type}, keyword=${requestDTO.keyword})}">-->
             <button type="button" class="btn btn-primary modifyBtn">수정</button>
 <!--        </a>-->
-<!--        <a th:href="@{/museum/list(page=${requestDTO.page}, type=${requestDTO.type}, keyword=${requestDTO.keyword})}">-->
+        <a th:href="@{/museum/list(page=${requestDTO.page}, type=${requestDTO.type}, keyword=${requestDTO.keyword})}">
             <button type="button" class="btn btn-info listBtn">목록</button>
-<!--        </a>-->
+        </a>
         <button type="button" class="btn btn-danger removeBtn">삭제</button>
 
         <script th:inline="javascript">
             var actionForm = $("form"); // 폼 태그 객체
 
             $(".modifyBtn").click(function (){
+
+                if(form.name.value === '') {
+                    form.name.focus();
+                    return;
+                }
+                if(form.address.value === '') {
+                    form.address.focus();
+                    return;
+                }
+                if(form.number.value === '') {
+                    form.number.focus();
+                    return;
+                }
+
                 if(!confirm("수정하시겠습니까?")) {
                     return;
                 }
 
                 actionForm
-                .attr("action", "/museum/modify") // attr()은 요소(element)의 속성(attribute)의 값을 추가
-                .attr("method", "post")
+                    .attr("action", "/museum/modify") // attr()은 요소(element)의 속성(attribute)의 값을 추가
+                    .attr("method", "post")
                 actionForm.submit();
+
+                return true;
             });
 
             $(".listBtn").click(function (){
@@ -108,6 +124,7 @@
                     .attr("method", "post")
                 actionForm.submit();
             });
+
         </script>
     </th:block>
 </th:block>

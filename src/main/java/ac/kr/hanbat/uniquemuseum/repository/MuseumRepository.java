@@ -1,6 +1,7 @@
 package ac.kr.hanbat.uniquemuseum.repository;
 
 import ac.kr.hanbat.uniquemuseum.entity.Museum;
+import com.querydsl.core.BooleanBuilder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,7 +21,7 @@ public interface MuseumRepository extends JpaRepository<Museum, Long> {
     @Query("select m, mi, avg(coalesce(r.grade, 0)), count(distinct r) from Museum m " +
             "left outer join MuseumImage mi on mi.museum = m " +
             "left outer join Review r on r.museum = m group by m ")
-    Page<Object[]> getListPage(Pageable pageable);
+    Page<Object[]> getListPage(BooleanBuilder booleanBuilder, Pageable pageable);
 
     @Query("select m, mi, avg(coalesce(r.grade, 0)), count(r) " +
             "from Museum m left outer join MuseumImage mi on mi.museum = m " +

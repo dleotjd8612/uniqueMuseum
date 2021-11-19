@@ -25,7 +25,7 @@ public class ReviewRepositoryTests {
                     .member(member)
                     .museum(Museum.builder().mno(mno).build())
                     .grade((int)(Math.random() * 5) + 1)
-                    .text("이 영화에 대한 느낌이랄까.." + i)
+                    .text("이 박물관에 대한 느낌이랄까.." + i)
                     .build();
 
             reviewRepository.save(review);
@@ -39,7 +39,7 @@ public class ReviewRepositoryTests {
         List<Review> result = reviewRepository.findByMuseum(museum);
 
         result.forEach(museumReview -> {
-            System.out.println(museumReview.getReviewNum());
+            System.out.println(museumReview.getReviewnum());
             System.out.println("\t" + museumReview.getGrade());
             System.out.println("\t" + museumReview.getText());
             System.out.println("\t" + museumReview.getMember().getEmail());

@@ -5,9 +5,13 @@ import ac.kr.hanbat.uniquemuseum.dto.PageRequestDTO;
 import ac.kr.hanbat.uniquemuseum.dto.PageResultDTO;
 import ac.kr.hanbat.uniquemuseum.entity.Museum;
 import ac.kr.hanbat.uniquemuseum.entity.MuseumImage;
+import ac.kr.hanbat.uniquemuseum.entity.QMuseum;
+import ac.kr.hanbat.uniquemuseum.entity.QReview;
 import ac.kr.hanbat.uniquemuseum.repository.MuseumImageRepository;
 import ac.kr.hanbat.uniquemuseum.repository.MuseumRepository;
 import ac.kr.hanbat.uniquemuseum.repository.ReviewRepository;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
@@ -49,8 +53,10 @@ public class MuseumServiceImpl implements MuseumService {
     @Override
     public PageResultDTO<MuseumDTO, Object[]> getList(PageRequestDTO pageRequestDTO) { // 박물관 목록 리스트
         Pageable pageable = pageRequestDTO.getPageable(Sort.by("mno").descending());
+        
+        BooleanBuilder booleanBuilder = getSearch(pageRequestDTO); // 검색 조건 처리
 
-        Page<Object[]> result = museumRepository.getListPage(pageable);
+        Page<Object[]> result = museumRepository.getListPage(booleanBuilder ,pageable);
 
         // Object[]: 박물관, 박물관 이미지 리스트, 평점 평균, 리뷰 개수의 객체들을 DTO 타입으로 변환
         // asList(): 일반 배열을 arrayList로 변환
@@ -113,5 +119,36 @@ public class MuseumServiceImpl implements MuseumService {
         museum.setAdmissionFeeInformation(museumDTO.getAdmissionFeeInformation());
 
         museumRepository.save(museum); // JPA를 이용하여 museum 객체를 데이터베이스에 수정(update문) 결과를 저장
+    }
+
+    private BooleanBuilder getSearch(PageRequestDTO requestDTO) { //Querydsl 처리
+        String type = requestDTO.getType();
+        String keyword = requestDTO.getKeyword();
+
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+        QMuseum qMuseum = QMuseum.museum;
+//        QReview qReview = QReview.review;
+
+        BooleanExpression expression = qMuseum.mno.gt(0L); // gno > 0
+        booleanBuilder.and(expression);
+
+        if(type == null || type.trim().length() == 0) { // 검색 조건이 없는 경우
+            return  booleanBuilder;
+        }
+
+        // 검색 조건 작성
+        BooleanBuilder conditionBuilder = new BooleanBuilder();
+
+        if(type.contains("n")) {
+            conditionBuilder.or(qMuseum.name.contains(keyword));
+        }
+        if(type.contains("a")) {
+            conditionBuilder.or(qMuseum.address.contains(keyword));
+        }
+
+        // 모든 조건 통합
+        booleanBuilder.and(conditionBuilder);
+
+        return booleanBuilder;
     }
 }

@@ -11,7 +11,22 @@
             </h1>
 
             <form action="/museum/list" method="get" id="searchForm">
-                <input type="hidden" name="page" value="1">
+                <div class="input-group">
+                    <input type="hidden" name="page" value="1">
+                    <div class="input-group-prepend">
+                        <select class="custom-select" name="type">
+                            <option th:selected="${pageRequestDTO.type == null}">------</option>
+                            <option value="n" th:selected="${pageRequestDTO.type == 'n'}">박물관명</option>
+                            <option value="a" th:selected="${pageRequestDTO.type == 'a'}">박물관주소</option>
+                            <option value="na" th:selected="${pageRequestDTO.type == 'na'}">박물관명 + 주소</option>
+                        </select>
+                    </div>
+                    <input class="form-control" name="keyword" th:value="${pageRequestDTO.keyword}">
+                    <div class="input-group-append" id="button-addon4">
+                        <button class="btn btn-outline-secondary btn-search" type="button">검색</button>
+                        <button class="btn btn-outline-secondary btn-clear" type="button">초기화</button>
+                    </div>
+                </div>
             </form>
 
             <table class="table table-striped">

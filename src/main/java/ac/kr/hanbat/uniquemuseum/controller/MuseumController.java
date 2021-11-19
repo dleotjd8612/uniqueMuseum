@@ -73,7 +73,6 @@ public class MuseumController {
         redirectAttributes.addAttribute("page", requestDTO.getPage());
         redirectAttributes.addAttribute("type", requestDTO.getType());
         redirectAttributes.addAttribute("keyword", requestDTO.getKeyword());
-
         redirectAttributes.addAttribute("mno", dto.getMno());
 
         return "redirect:/museum/read";

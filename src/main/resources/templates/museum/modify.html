@@ -114,7 +114,15 @@
 
                 actionForm.empty(); //form 태그 내의 모든 파라미터 삭제
 
-                console.log(actionForm.html()); //먼저 확인 후에 주석 처리
+                actionForm.append(page);
+                actionForm.append(type);
+                actionForm.append(keyword);
+
+                // console.log(actionForm.html()); //먼저 확인 후에 주석 처리
+                actionForm
+                    .attr("action", "/museum/list")
+                    .attr("method", "get")
+
                 actionForm.submit();
             });
 

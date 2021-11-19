@@ -32,7 +32,8 @@ import java.util.function.Function;
 @Log4j2
 @RequiredArgsConstructor // 의존성 자동 주입, 초기화 되지않은 final 필드나, @NonNull 이 붙은 필드에 대해 생성자를 생성
 public class MuseumServiceImpl implements MuseumService {
-    private final MuseumRepository museumRepository;
+    // JPA 사용을 위한 JPARepogitory 인터페이스의 구현 클래스 타입의 변수를 선언
+    private final MuseumRepository museumRepository; // 반드시 final로 선언
     private final MuseumImageRepository museumImageRepository;
     private final ReviewRepository reviewRepository;
 
@@ -55,7 +56,9 @@ public class MuseumServiceImpl implements MuseumService {
         Pageable pageable = pageRequestDTO.getPageable(Sort.by("mno").descending());
         
         BooleanBuilder booleanBuilder = getSearch(pageRequestDTO); // 검색 조건 처리
+        log.info("booleanBuilder: " + booleanBuilder);
 
+        // Querydsl 사용
         Page<Object[]> result = museumRepository.getListPage(booleanBuilder ,pageable);
 
         // Object[]: 박물관, 박물관 이미지 리스트, 평점 평균, 리뷰 개수의 객체들을 DTO 타입으로 변환

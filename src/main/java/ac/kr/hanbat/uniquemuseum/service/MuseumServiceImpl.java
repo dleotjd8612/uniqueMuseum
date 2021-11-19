@@ -56,10 +56,10 @@ public class MuseumServiceImpl implements MuseumService {
         Pageable pageable = pageRequestDTO.getPageable(Sort.by("mno").descending());
         
         BooleanBuilder booleanBuilder = getSearch(pageRequestDTO); // 검색 조건 처리
-        log.info("booleanBuilder: " + booleanBuilder);
+        log.info("booleanBuilder: " + booleanBuilder); // ->>>>>>>>>>>>>> 아래 querydsl에 booleanBuilder 추가하는 방법 찾아야 함
 
         // Querydsl 사용
-        Page<Object[]> result = museumRepository.getListPage(booleanBuilder ,pageable);
+        Page<Object[]> result = museumRepository.getListPage(pageable);
 
         // Object[]: 박물관, 박물관 이미지 리스트, 평점 평균, 리뷰 개수의 객체들을 DTO 타입으로 변환
         // asList(): 일반 배열을 arrayList로 변환

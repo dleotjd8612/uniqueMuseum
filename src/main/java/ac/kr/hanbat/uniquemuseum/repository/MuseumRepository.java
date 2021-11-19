@@ -17,7 +17,7 @@ public interface MuseumRepository extends JpaRepository<Museum, Long> {
 //            "group by m")
 //    Page<Object[]> getListPage(Pageable pageable);
 
-    @Query("select m, mi, avg(coalesce(r.grade, 0)), count(r) from Museum m " +
+    @Query("select m, mi, avg(coalesce(r.grade, 0)), count(distinct r) from Museum m " +
             "left outer join MuseumImage mi on mi.museum = m " +
             "left outer join Review r on r.museum = m group by m ")
     Page<Object[]> getListPage(Pageable pageable);

@@ -25,7 +25,7 @@ public interface MuseumRepository extends JpaRepository<Museum, Long>, SearchMus
             "left outer join Review r on r.museum = m group by m ")
     Page<Object[]> getListPage(Pageable pageable);
 
-    @Query("select m, mi, avg(coalesce(r.grade, 0)), count(r) " +
+    @Query("select m, mi, avg(coalesce(r.grade, 0)), count(distinct r) " +
             "from Museum m left outer join MuseumImage mi on mi.museum = m " +
             "left outer join Review r on r.museum = m " +
             "where m.mno = :mno group by mi")

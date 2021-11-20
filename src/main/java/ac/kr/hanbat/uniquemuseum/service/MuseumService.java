@@ -90,6 +90,8 @@ public interface MuseumService {
         }).collect(Collectors.toList());
 
         museumDTO.setImageDTOList(museumImageDTOList);
+        if(avg == null) avg = 0.0;
+        if(reviewCnt == null) reviewCnt = 0L;
         museumDTO.setAvg(avg);
         museumDTO.setReviewCnt(reviewCnt.intValue());
 

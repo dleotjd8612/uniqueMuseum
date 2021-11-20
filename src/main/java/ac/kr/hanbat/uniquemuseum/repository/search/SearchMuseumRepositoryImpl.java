@@ -69,7 +69,7 @@ public class SearchMuseumRepositoryImpl extends QuerydslRepositorySupport implem
         jpqlQuery.leftJoin(review).on(review.museum.eq(museum));
 
         // Tuple: 정해진 엔티티 객체 단위가 아니라 각각의 데이터를 추출하는 경우 사용, 여러 테이블의 집합 함수를 처리하는 것
-        JPQLQuery<Tuple> tuple = jpqlQuery.select(museum, museumImage, review.grade.avg(), review.count());
+        JPQLQuery<Tuple> tuple = jpqlQuery.select(museum, museumImage, review.grade.avg(), review.countDistinct());
 
         // BooleanBuilder: 쿼리의 조건 설정인 where뒤의 조건을 생성해주는 것
         // BooleanExpression: 복잡한 동적 쿼리를 표현, QueryDSL Repository의 표현을 좀더 직관적으로 볼 수 있도록 리팩토링하는 과정

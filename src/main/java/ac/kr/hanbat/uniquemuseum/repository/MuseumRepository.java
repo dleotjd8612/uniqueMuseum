@@ -1,6 +1,7 @@
 package ac.kr.hanbat.uniquemuseum.repository;
 
 import ac.kr.hanbat.uniquemuseum.entity.Museum;
+import ac.kr.hanbat.uniquemuseum.repository.search.SearchMuseumRepository;
 import com.querydsl.core.BooleanBuilder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,7 +12,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface MuseumRepository extends JpaRepository<Museum, Long>, QuerydslPredicateExecutor<Museum> {
+public interface MuseumRepository extends JpaRepository<Museum, Long>, SearchMuseumRepository {
 
 //    @Query("select m, avg(coalesce(r.grade, 0)), count(distinct r) " +
 //            "from Museum m " +

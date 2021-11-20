@@ -53,13 +53,16 @@ public class MuseumServiceImpl implements MuseumService {
 
     @Override
     public PageResultDTO<MuseumDTO, Object[]> getList(PageRequestDTO pageRequestDTO) { // 박물관 목록 리스트
-        Pageable pageable = pageRequestDTO.getPageable(Sort.by("mno").descending());
-        
-        BooleanBuilder booleanBuilder = getSearch(pageRequestDTO); // 검색 조건 처리
-        log.info("booleanBuilder: " + booleanBuilder); // ->>>>>>>>>>>>>> 아래 querydsl에 booleanBuilder 추가하는 방법 찾아야 함
-
+//        Pageable pageable = pageRequestDTO.getPageable(Sort.by("mno").descending());
+//
+//        BooleanBuilder booleanBuilder = getSearch(pageRequestDTO); // 검색 조건 처리
         // Querydsl 사용
-        Page<Object[]> result = museumRepository.getListPage(pageable);
+//        Page<Object[]> result = museumRepository.getListPage(pageable);
+
+        Page<Object[]> result = museumRepository.searchPage(
+                pageRequestDTO.getType(),
+                pageRequestDTO.getKeyword(),
+                pageRequestDTO.getPageable(Sort.by("mno").descending()));
 
         // Object[]: 박물관, 박물관 이미지 리스트, 평점 평균, 리뷰 개수의 객체들을 DTO 타입으로 변환
         // asList(): 일반 배열을 arrayList로 변환
@@ -104,7 +107,7 @@ public class MuseumServiceImpl implements MuseumService {
     public void modify(MuseumDTO museumDTO) {
         // JPA를 이용하여 파라미터로 넘어온 MuseumDTO 객체 안에 있는 mno를 가진 데이터를 Museum Entity 클래스 변수에 저장
         log.info(museumDTO.getMno());
-        // JPA를 이용하여 파라미터로 넘오온 MovieDTO 객체 안에 있는 mno를 가진 데이터를 Movie Entity 클래스 변수에 저장
+        // JPA를 이용하여 파라미터로 넘오온 MuseumDTO 객체 안에 있는 mno를 가진 데이터를 Museum Entity 클래스 변수에 저장
         Museum museum = museumRepository.getOne(museumDTO.getMno());
 
         museum.setName(museumDTO.getName());

@@ -3,10 +3,7 @@ package ac.kr.hanbat.uniquemuseum.service;
 import ac.kr.hanbat.uniquemuseum.dto.MuseumDTO;
 import ac.kr.hanbat.uniquemuseum.dto.PageRequestDTO;
 import ac.kr.hanbat.uniquemuseum.dto.PageResultDTO;
-import ac.kr.hanbat.uniquemuseum.entity.Museum;
-import ac.kr.hanbat.uniquemuseum.entity.MuseumImage;
-import ac.kr.hanbat.uniquemuseum.entity.QMuseum;
-import ac.kr.hanbat.uniquemuseum.entity.QReview;
+import ac.kr.hanbat.uniquemuseum.entity.*;
 import ac.kr.hanbat.uniquemuseum.repository.MuseumImageRepository;
 import ac.kr.hanbat.uniquemuseum.repository.MuseumRepository;
 import ac.kr.hanbat.uniquemuseum.repository.ReviewRepository;
@@ -133,7 +130,8 @@ public class MuseumServiceImpl implements MuseumService {
 
         BooleanBuilder booleanBuilder = new BooleanBuilder();
         QMuseum qMuseum = QMuseum.museum;
-//        QReview qReview = QReview.review;
+        QReview qReview = QReview.review;
+        QMember qMember = QMember.member;
 
         BooleanExpression expression = qMuseum.mno.gt(0L); // gno > 0
         booleanBuilder.and(expression);
@@ -145,11 +143,17 @@ public class MuseumServiceImpl implements MuseumService {
         // 검색 조건 작성
         BooleanBuilder conditionBuilder = new BooleanBuilder();
 
-        if(type.contains("n")) {
+        if(type.contains("n")) { // 박물관 이름
             conditionBuilder.or(qMuseum.name.contains(keyword));
         }
-        if(type.contains("a")) {
+        if(type.contains("a")) { // 박물관 주소
             conditionBuilder.or(qMuseum.address.contains(keyword));
+        }
+        if(type.contains("i")) { // 회원 닉네임
+            conditionBuilder.or(qMember.nickname.contains(keyword));
+        }
+        if(type.contains("t")) { // 리뷰 내용
+            conditionBuilder.or(qReview.text.contains(keyword));
         }
 
         // 모든 조건 통합

@@ -1,9 +1,6 @@
 package ac.kr.hanbat.uniquemuseum.repository.search;
 
-import ac.kr.hanbat.uniquemuseum.entity.Museum;
-import ac.kr.hanbat.uniquemuseum.entity.QMuseum;
-import ac.kr.hanbat.uniquemuseum.entity.QMuseumImage;
-import ac.kr.hanbat.uniquemuseum.entity.QReview;
+import ac.kr.hanbat.uniquemuseum.entity.*;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Order;
@@ -61,12 +58,14 @@ public class SearchMuseumRepositoryImpl extends QuerydslRepositorySupport implem
         // Querydsl 처리, Q도메인 클래스 객체를 가져옴
         QReview review = QReview.review;
         QMuseum museum = QMuseum.museum;
+        QMember member = QMember.member;
         QMuseumImage museumImage = QMuseumImage.museumImage;
 
         // SQL문 작성, SPQLQuery: 쿼리 메소드나 @Query에서 처리하기 어려운 복잡한 쿼리문 작성 시 사용
         JPQLQuery<Museum> jpqlQuery = from(museum);
         jpqlQuery.leftJoin(museumImage).on(museumImage.museum.eq(museum));
         jpqlQuery.leftJoin(review).on(review.museum.eq(museum));
+        jpqlQuery.leftJoin(member).on(member.eq(review.member));
 
         // Tuple: 정해진 엔티티 객체 단위가 아니라 각각의 데이터를 추출하는 경우 사용, 여러 테이블의 집합 함수를 처리하는 것
         JPQLQuery<Tuple> tuple = jpqlQuery.select(museum, museumImage, review.grade.avg(), review.countDistinct());
@@ -94,6 +93,9 @@ public class SearchMuseumRepositoryImpl extends QuerydslRepositorySupport implem
                         break;
                     case "a":
                         conditionBuilder.or(museum.address.contains(keyword));
+                        break;
+                    case "i":
+                        conditionBuilder.or(member.nickname.contains(keyword));
                         break;
                     case "t":
                         conditionBuilder.or(review.text.contains(keyword));

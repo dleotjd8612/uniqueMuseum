@@ -1,9 +1,11 @@
 package ac.kr.hanbat.uniquemuseum.repository;
 
 import ac.kr.hanbat.uniquemuseum.entity.Member;
+import ac.kr.hanbat.uniquemuseum.entity.MemberRole;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.annotation.Commit;
 
 import javax.transaction.Transactional;
@@ -14,16 +16,35 @@ public class MemberRepositoryTests {
     @Autowired
     private MemberRepository memberRepository;
     @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
     private ReviewRepository reviewRepository;
+
+    @Test
+    public void insertMember() { // 사용자 추가
+        Member member = Member.builder()
+                .email("admin@test.com")
+                .password(passwordEncoder.encode("1111"))
+                .nickname("관리자")
+                .fromSocial(false)
+                .build();
+        member.addMemberRole(MemberRole.USER);
+        member.addMemberRole(MemberRole.MANAGER);
+        member.addMemberRole(MemberRole.ADMIN);
+        memberRepository.save(member);
+    }
 
     @Test
     public void insertMembers() {
         IntStream.rangeClosed(1, 100).forEach(i -> {
             Member member = Member.builder()
-                    .email("r" + i + "@hanbat.ac.kr")
-                    .pw("1111")
-                    .nickname("작성자" + i)
+                    .email("user" + i + "@hanbat.ac.kr")
+                    .password(passwordEncoder.encode("1111"))
+                    .nickname("사용자" + i)
+                    .fromSocial(false)
                     .build();
+
+            member.addMemberRole(MemberRole.USER);
             memberRepository.save(member);
         });
     }

@@ -9,3 +9,4 @@ var header = $("meta[name='_csrf_header']").attr("content");
 var token = $("meta[name='_csrf']").attr("content");
 jqXHR.setRequestHeader(header, token);
 }
+http.csrf().disable(); // CSRF 토큰을 발행하지 않도록 설정하면 주석 or 삭제 처리 해야 

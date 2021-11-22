@@ -59,7 +59,7 @@
             <div class="form-group fileForm">
                 <label>이미지</label>
                 <div class="custom-file">
-                    <input type="file" class="custom-file-input files" id="fileInput" multiple>
+                    <input type="file" class="custom-file-input files" id="fileInput" name="image" multiple>
                     <label class="custom-file-label" data-browse="Browse"></label>
                 </div>
             </div>
@@ -232,6 +232,9 @@
                     return false;
                 } else if(form.number.value ==='') {
                     form.number.focus();
+                    return false;
+                } else if(form.image.value === '') {
+                    form.image.focus();
                     return false;
                 } else return true;
             }

@@ -1,15 +1,20 @@
 package ac.kr.hanbat.uniquemuseum.security.service;
 
 import ac.kr.hanbat.uniquemuseum.dto.AuthMemberDTO;
+import ac.kr.hanbat.uniquemuseum.dto.MemberDTO;
 import ac.kr.hanbat.uniquemuseum.entity.Member;
+import ac.kr.hanbat.uniquemuseum.entity.MemberRole;
 import ac.kr.hanbat.uniquemuseum.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -22,6 +27,9 @@ import java.util.stream.Collectors;
 public class ClubUserDetailsService implements UserDetailsService {
 
     private final MemberRepository memberRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -50,4 +58,42 @@ public class ClubUserDetailsService implements UserDetailsService {
 
         return authMemberDTO;
     }
+
+    @Transactional
+    public void createUser(MemberDTO memberDTO) {
+        log.info(memberDTO);
+
+        memberDTO.setPassword(passwordEncoder.encode(memberDTO.getPassword()));
+
+        Member member = dtoToEntity(memberDTO);
+
+        memberRepository.save(member);
+
+    }
+
+    private Member dtoToEntity(MemberDTO dto) {
+        Member member = Member.builder()
+                .email(dto.getEmail())
+                .password(dto.getPassword())
+                .nickname(dto.getNickname())
+                .fromSocial(false)
+                .build();
+
+        member.addMemberRole(MemberRole.USER);
+        return member;
+    }
+
+    private MemberDTO entityToDTO(Member member) {
+        MemberDTO memberDTO = MemberDTO.builder()
+                .email(member.getEmail())
+                .password(member.getPassword())
+                .nickname(member.getNickname())
+                .fromSocial(member.isFromSocial())
+                .roleSet(member.getRoleSet())
+                .build();
+
+        return memberDTO;
+    }
+
+
 }

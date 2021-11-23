@@ -23,14 +23,14 @@ public class MemberRepositoryTests {
     @Test
     public void insertMember() { // 사용자 추가
         Member member = Member.builder()
-                .email("admin@test.com")
+                .email("user@test.com")
                 .password(passwordEncoder.encode("1111"))
-                .nickname("관리자")
+                .nickname("사용자")
                 .fromSocial(false)
                 .build();
         member.addMemberRole(MemberRole.USER);
-        member.addMemberRole(MemberRole.MANAGER);
-        member.addMemberRole(MemberRole.ADMIN);
+//        member.addMemberRole(MemberRole.MANAGER);
+//        member.addMemberRole(MemberRole.ADMIN);
         memberRepository.save(member);
     }
 

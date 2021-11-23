@@ -33,7 +33,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/museum/read").hasRole("USER")
                 .antMatchers("/museum/register").hasRole("ADMIN");
 
-
         http.formLogin(); // 인가, 인증에 문제시 로그인 화면으로 이동
 
         http.csrf().disable(); // CSRF 토큰을 발행하지 않도록 설정

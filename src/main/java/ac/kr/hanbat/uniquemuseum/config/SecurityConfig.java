@@ -36,7 +36,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.formLogin(); // 인가, 인증에 문제시 로그인 화면으로 이동
         http.csrf().disable(); // CSRF 토큰을 발행하지 않도록 설정
-        http.logout(); // 로그아웃 페이지로 이동
+        http.logout() // 로그아웃 페이지로 이동
+                .logoutSuccessUrl("/museum/list");
     }
 
 //    @Override

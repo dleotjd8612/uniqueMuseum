@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <th:block th:fragment="setContent(content)">
 <head>
@@ -81,8 +81,23 @@
 <!--                <span class="navbar-toggler-icon"></span>-->
 <!--            </button>-->
 
+<!--                    <sec:authorize access="isAnonymous()">-->
+<!--                        로그인-->
+<!--                        회원가입-->
+<!--                    </sec:authorize>-->
+
+            <!--        <sec:authorize access="isAuthenticated()">-->
+            <!--            로그아웃-->
+            <!--            회원정보보기-->
+            <!--        </sec:authorize>-->
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                    <li class="nav-item active">
+                        <span><a th:href="@{/login}"><button sec:authorize="isAnonymous()" type="button" class="btn btn-primary">로그인</button></a></span>
+                    </li>
+                    <li class="nav-item active">
+                        <span><a th:href="@{/logout}"><button sec:authorize="isAuthenticated()" type="button" class="btn btn-warning">로그아웃</button></a></span>
+                    </li>
                     <li class="nav-item active">
                         <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
                     </li>

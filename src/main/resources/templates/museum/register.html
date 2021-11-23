@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <th:block th:replace="~{layout/basic::setContent(~{this::content})}">
     <th:block th:fragment="content">
         <h1 class="mt-4">박물관 등록</h1><br>
@@ -74,6 +74,22 @@
                 </ul>
             </div>
         </form>
+
+<!--    html에서 시큐리티 설정   -->
+<!--        <div sec:authorize="hasRole('USER')">로그인한 유저 및 관리자가 볼수 있는 영역</div>-->
+<!--        <div sec:authorize="hasRole('ADMIN')">로그인한 관리자만 볼수 있는 영역</div>-->
+
+<!--        <sec:authorize access="isAnonymous()">-->
+<!--            로그인-->
+<!--            회원가입-->
+<!--        </sec:authorize>-->
+
+<!--        <sec:authorize access="isAuthenticated()">-->
+<!--            로그아웃-->
+<!--            회원정보보기-->
+<!--        </sec:authorize>-->
+<!--        <div sec:authentication="name">로그인한 사용자 id(email) 정보</div>-->
+<!--        <div sec:authentication="principal.authorities">로그인한 사용자의 권한 보기</div>-->
 
         <script>
             $(document).ready(function (e) {

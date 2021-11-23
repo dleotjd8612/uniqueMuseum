@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <th:block th:replace="~{layout/basic::setContent(~{this::content})}">
         <th:block th:fragment="content">
-            <h1 class="mt-4">박물관 리스트
-                <span>
+            <h1 class="mt-4">전국 박물관 리스트
+                <span sec:authorize="hasRole('ADMIN')">
                     <a th:href="@{/museum/register}">
                         <button type="button" class="btn btn-outline-primary">등록</button>
                     </a>

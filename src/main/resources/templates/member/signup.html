@@ -2,8 +2,8 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <th:block th:replace="~{layout/basic::setContent(~{this::content})}">
     <th:block th:fragment="content">
-        <h1>회원 가입 페이지 호출</h1>
-        <form th:action="@{/member/signup}" th:method="post">
+        <h1>회원 가입 페이지</h1>
+        <form th:action="@{/member/signup}" th:method="post" name="form" onsubmit="return empty_check()">
             <div class="form-group">
                 <label>이메일 - ID</label>
                 <input type="email" class="form-control" name="email" placeholder="이메일을 입력하시오.">
@@ -26,39 +26,39 @@
             <div class="form-group">
                 <input type="hidden" class="form-control" name="roleset" value="USER" readonly>
             </div>
-            <button type="submit" class="btn btn-primary" onclick="empty_check(); password_check();">회원 가입</button>
+            <div class="uploadResult">
+
+            </div>
+            <button type="submit" class="btn btn-primary">회원 가입</button>
         </form>
 
-        <script th:inline="javascript">
-            // var formData = new FormData();
-            let form = $('form');
-            console.log(form);
+        <script>
+            var formData = new FormData();
+            // let form = $('form');
+            // console.log(form);
 
             function empty_check() {
                 if(form.email.value === '') {
                     form.email.focus();
-                    return;
-                }
-                if (form.password.value === '') {
+                    return false;
+                } else if (form.password.value === '') {
                     form.password.focus();
-                    return;
-                }
-                if (form.password.value === '') {
-                    form.password.focus();
-                    return;
-                }
-                if(form.nickname.value === '') {
-                    form.nickname.focus();
-                    return;
-                }
-            }
-
-            function password_check() {
-                if(form.password.value !== form.password2.value) {
+                    return false;
+                } else if (form.password2.value === '') {
+                    form.password2.focus();
+                    return false;
+                } else if(form.password.value !== form.password2.value) {
                     alert("비밀번호가 일치하지 않습니다.");
                     form.password.focus();
                     form.password.select();
-                    return;
+                    return false;
+                } else if(form.nickname.value === '') {
+                    form.nickname.focus();
+                    return false;
+                } else {
+                    let email = $('input[name=email]').val();
+                    alert(email + "님 회원가입을 축하드립니다.\n로그인 해주시기 바랍니다.");
+                    return true;
                 }
             }
         </script>

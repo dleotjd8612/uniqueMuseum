@@ -61,13 +61,27 @@ public class ClubUserDetailsService implements UserDetailsService {
 
     @Transactional
     public void createUser(MemberDTO memberDTO) {
-        log.info(memberDTO);
+        log.info("memberDTO memberDTO: " + memberDTO);
 
         memberDTO.setPassword(passwordEncoder.encode(memberDTO.getPassword()));
 
         Member member = dtoToEntity(memberDTO);
+        Optional<Member> result = memberRepository.findByEmail(member.getEmail(), false);
+        log.info("aaaaaaa: " + result.get());
 
-        memberRepository.save(member);
+        String prevEmail = memberDTO.getEmail();
+        String newEmail = result.get().getEmail();
+
+        log.info("ppppppppppppp" + prevEmail);
+        log.info("nnnnnnnnnnnnn" + newEmail);
+
+//        여기서 중복 체크 처리 해야 함
+//        if(memberDTO.getEmail() != result.get().getEmail()) {
+//            memberRepository.save(member);
+//            log.info("존재하지 않는 회원입니다.");
+//        } else {
+//            log.info("이미 존재하는 회원입니다.");
+//        }
 
     }
 

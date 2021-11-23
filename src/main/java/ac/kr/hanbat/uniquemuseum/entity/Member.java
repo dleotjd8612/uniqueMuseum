@@ -15,8 +15,11 @@ import java.util.Set;
 public class Member extends BaseEntity{
     @Id
     private String email;
+    @Column(nullable = false)
     private String password;
+    @Column(nullable = false)
     private String nickname;
+    @Column(nullable = false)
     private boolean fromSocial;
 
     // @ElementCollection: Entity가 아닌 단순한 형태의 객체 집합을 정의하고 관리하는 방법
@@ -24,6 +27,7 @@ public class Member extends BaseEntity{
     // @Builder.Default: 필드에 기본값 설정 시 사용
     @ElementCollection(fetch = FetchType.LAZY)
     @Builder.Default
+    @Column(nullable = false)
     private Set<MemberRole> roleSet = new HashSet<>();
 
     public void addMemberRole(MemberRole memberRole) { // 계정에 권한 추가

@@ -10,6 +10,7 @@ import ac.kr.hanbat.uniquemuseum.security.service.ClubUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.catalina.User;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -57,7 +58,7 @@ public class MemberController {
         log.info("myPage dto: " + memberDTO);
         model.addAttribute("member_dto", memberDTO);
     }
-    
+
     @PostMapping("mypage")
     public String myPagePost(MemberDTO memberDTO, Model model) { // 회원 정보 수정
         log.info("myPage MemberDTO:" + memberDTO);

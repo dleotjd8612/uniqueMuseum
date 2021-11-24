@@ -68,11 +68,11 @@
                    th:value="${dto.admissionFeeInformation}" readonly>
         </div>
 
-        <div sec:authorize="hasRole('ADMIN')">
+        <span sec:authorize="hasRole('ADMIN')">
             <a th:href="@{/museum/modify(mno=${dto.mno}, page=${requestDTO.page}, type=${requestDTO.type}, keyword=${requestDTO.keyword})}">
                 <button type="button" class="btn btn-primary">수정</button>
             </a>
-        </div>
+        </span>
         <a th:href="@{/museum/list(page=${requestDTO.page}, type=${requestDTO.type}, keyword=${requestDTO.keyword})}">
             <button type="button" class="btn btn-info">목록</button>
         </a>

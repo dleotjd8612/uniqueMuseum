@@ -5,6 +5,7 @@ import ac.kr.hanbat.uniquemuseum.dto.PageRequestDTO;
 import ac.kr.hanbat.uniquemuseum.service.MuseumService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,10 +21,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class MuseumController {
     private final MuseumService museumService;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("register")
     public void register() { // 박물관 등록 페이지 호출
 
     }
+
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("register")
     public String register(MuseumDTO museumDTO, RedirectAttributes redirectAttributes) {
         log.info("museumDTO: " + museumDTO);
@@ -39,6 +43,7 @@ public class MuseumController {
         return "redirect:/museum/list";
     }
 
+    @PreAuthorize("permitAll()")
     @GetMapping("list")
     public void list(PageRequestDTO pageRequestDTO, Model model) {
         log.info("pageRequestDTO: " + pageRequestDTO);
@@ -49,6 +54,7 @@ public class MuseumController {
     // 1) @ModelAttribute 어노테이션이 붙은 객체를 자동으로 생성한다.
     // 2) 생성된 오브젝트에(PageRequestDTO) HTTP로 넘어 온 값들을 자동으로 바인딩한다.
     // 3) 마지막으로 @ModelAttribute 어노테이션이 붙은 객체(PageRequestDTO 객체)가 자동으로 Model 객체에 추가되고 뷰단으로 전달된다.
+    @PreAuthorize("permitAll()")
     @GetMapping("read")
     public void read(long mno, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, Model model) {
         log.info("mno: " + mno);
@@ -56,6 +62,7 @@ public class MuseumController {
         model.addAttribute("dto", museumDTO);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("modify")
     public void modify(long mno, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, Model model) {
         log.info("mno: " + mno);
@@ -63,6 +70,7 @@ public class MuseumController {
         model.addAttribute("dto", museumDTO);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("modify") // 박물관 수정
     public String modify(MuseumDTO dto, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, RedirectAttributes redirectAttributes) {
         log.info("post modify...............");
@@ -77,7 +85,8 @@ public class MuseumController {
 
         return "redirect:/museum/read";
     }
-    
+
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("remove") // 박물관 삭제
     public String remove(long mno, RedirectAttributes redirectAttributes) {
         log.info("mno: " + mno);

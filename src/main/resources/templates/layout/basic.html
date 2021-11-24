@@ -84,12 +84,12 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
                     <li class="nav-item active">
+                        <span sec:authorize="hasRole('USER')"><b><span sec:authentication="name" name="user_id" id="user_id"></span></b>님 환영합니다.&nbsp;&nbsp;&nbsp;</span>
                         <span><a th:href="@{/}"><button type="button" class="btn btn-info">HOME</button></a></span>
                         <span><a th:href="@{/member/signup}"><button sec:authorize="isAnonymous()" type="button" class="btn btn-primary">회원가입</button></a></span>
-                        <span><a th:href="@{/login}"><button sec:authorize="isAnonymous()" type="button" class="btn btn-dark">로그인</button></a></span>
+                        <span><a th:href="@{/login}"><button sec:authorize="isAnonymous()" type="button" class="btn btn-secondary">로그인</button></a></span>
                         <span><a th:href="@{/member/mypage}"><button sec:authorize="isAuthenticated()" type="button" class="btn btn-primary">마이페이지</button></a></span>
                         <span><a th:href="@{/logout}"><button sec:authorize="isAuthenticated()" type="button"class="btn btn-warning">로그아웃</button></a></span>
-                        <span sec:authorize="hasRole('USER')"><span sec:authentication="name" name="user_id" id="user_id"></span></span>
                     </li>
                 </ul>
             </div>

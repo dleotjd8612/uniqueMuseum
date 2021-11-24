@@ -34,6 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/museum/register").hasRole("ADMIN")
                 .antMatchers("/museum/modify").hasRole("ADMIN");
 
+//                .antMatchers("/reviews/{mno}/all").hasRole("USER");
 
         http.formLogin(); // 인가, 인증에 문제시 로그인 화면으로 이동
 

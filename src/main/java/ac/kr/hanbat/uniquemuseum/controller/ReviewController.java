@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.List;
 public class ReviewController {
     private final ReviewService reviewService;
 
+    @PreAuthorize("permitAll()")
     @GetMapping("/{mno}/all")
     // @PathVariable: URL 경로에 변수를 넣어주는 것
     public ResponseEntity<List<ReviewDTO>> getList(@PathVariable("mno") Long mno) {
@@ -29,6 +31,7 @@ public class ReviewController {
         return new ResponseEntity<>(reviewDTOList, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('USER')")
     @PostMapping("/{mno}")
     // @RequestBody: HTTP 요청 몸체를 자바 객체로 변환하고 자바 객체를 HTTP 응답 몸체로 변환
     public ResponseEntity<Long> addReview(@RequestBody ReviewDTO museumReviewDTO) {
@@ -40,6 +43,7 @@ public class ReviewController {
         return new ResponseEntity<>(reviewnum, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('USER')")
     @PutMapping("/{mno}/{reviewnum}")
     public ResponseEntity<Long> modifyReview(@PathVariable Long reviewnum, @RequestBody ReviewDTO museumReviewDTO) {
         log.info("------------ modify MuseumReview ------------");
@@ -48,6 +52,7 @@ public class ReviewController {
         return new ResponseEntity<>(reviewnum, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('USER')")
     @DeleteMapping("/{mno}/{reviewnum}")
     public ResponseEntity<Long> removeReview(@PathVariable Long reviewnum) {
         log.info("------------- modify removeReview -----------");

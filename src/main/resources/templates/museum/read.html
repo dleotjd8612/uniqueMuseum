@@ -89,10 +89,9 @@
         <button type="button" class="btn btn-primary">리뷰 개수
             <span class="badge badge-light">[[${dto.reviewCnt}]]</span>
         </button>
-
-        <span sec:authorize="hasRole('USER')">
-            <button type="button" class="btn btn-info addReviewBtn">리뷰 작성</button>
-        </span>
+        <span><a th:href="@{/login}"><button sec:authorize="isAnonymous()" type="button" class="btn btn-info">리뷰 작성</button></a></span>
+        <span><button sec:authorize="isAuthenticated()" type="button"class="btn btn-info addReviewBtn">리뷰 작성</button></span>
+<!--        <button type="button" class="btn btn-info addReviewBtn">리뷰 작성</button>-->
         <div class="list-group reviewList">
 
         </div>

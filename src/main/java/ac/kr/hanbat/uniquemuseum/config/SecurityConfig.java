@@ -30,7 +30,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // permitAll(): 모든 사용자에게 접근 허락, 비로그인 사용자(익명 사용자) 포함
         http.authorizeRequests()
                 .antMatchers("/museum/list").permitAll()
-                .antMatchers("/museum/register").hasRole("ADMIN");
+                .antMatchers("/museum/read").permitAll()
+                .antMatchers("/museum/register").hasRole("ADMIN")
+                .antMatchers("/museum/modify").hasRole("ADMIN");
+
 
         http.formLogin(); // 인가, 인증에 문제시 로그인 화면으로 이동
 

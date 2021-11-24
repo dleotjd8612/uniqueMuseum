@@ -89,7 +89,7 @@
                         <span><a th:href="@{/login}"><button sec:authorize="isAnonymous()" type="button" class="btn btn-dark">로그인</button></a></span>
                         <span><a th:href="@{/member/mypage}"><button sec:authorize="isAuthenticated()" type="button" class="btn btn-primary">마이페이지</button></a></span>
                         <span><a th:href="@{/logout}"><button sec:authorize="isAuthenticated()" type="button"class="btn btn-warning">로그아웃</button></a></span>
-                        <span sec:authorize="hasRole('USER')"><span sec:authentication="name"></span></span>
+                        <span sec:authorize="hasRole('USER')"><span sec:authentication="name" name="user_id" id="user_id"></span></span>
                     </li>
                 </ul>
             </div>

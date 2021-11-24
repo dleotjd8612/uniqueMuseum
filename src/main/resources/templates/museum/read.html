@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <th:block th:replace="~{layout/basic::setContent(~{this::content})}">
     <th:block th:fragment="content">
-        <h1 class="mt-4">[[${dto.name}]] 박물관</h1>
+        <h1 class="mt-4">[[${dto.name}]]</h1>
         <div class="form-group">
             <label>박물관 이름</label>
             <input type="text" class="form-control" id="name" name="name" th:value="${dto.name}" readonly>
@@ -25,42 +25,54 @@
         </div>
         <div class="form-group">
             <label>편의 시설 정보</label>
-            <input type="text" class="form-control" name="convenienceFacilityInformation" th:value="${dto.convenienceFacilityInformation}" readonly>
+            <input type="text" class="form-control" name="convenienceFacilityInformation"
+                   th:value="${dto.convenienceFacilityInformation}" readonly>
         </div>
         <div class="form-group">
             <label>평일 운영 시간</label>
-            <input type="time" class="form-control" name="weekdaysOpen" value="09:00" th:value="${dto.weekdaysOpen}" readonly>
-            <input type="time" class="form-control" name="weekdaysClose" value="18:00" th:value="${dto.weekdaysClose}" readonly>
+            <input type="time" class="form-control" name="weekdaysOpen" value="09:00" th:value="${dto.weekdaysOpen}"
+                   readonly>
+            <input type="time" class="form-control" name="weekdaysClose" value="18:00" th:value="${dto.weekdaysClose}"
+                   readonly>
         </div>
         <div class="form-group">
             <label>주말 운영 시간</label>
-            <input type="time" class="form-control" name="weekendOpen" value="09:00" th:value="${dto.weekendOpen}" readonly>
-            <input type="time" class="form-control" name="weekendClose" value="18:00" th:value="${dto.weekendClose}" readonly>
+            <input type="time" class="form-control" name="weekendOpen" value="09:00" th:value="${dto.weekendOpen}"
+                   readonly>
+            <input type="time" class="form-control" name="weekendClose" value="18:00" th:value="${dto.weekendClose}"
+                   readonly>
         </div>
         <div class="form-group">
             <label>휴관 정보</label>
-            <input type="text" class="form-control" name="closingInformation" th:value="${dto.closingInformation}" readonly>
+            <input type="text" class="form-control" name="closingInformation" th:value="${dto.closingInformation}"
+                   readonly>
         </div>
         <div class="form-group">
             <label>성인 관람료</label>
-            <input type="text" class="form-control" name="adultAdmissionFee" th:value="${dto.adultAdmissionFee}" readonly>
+            <input type="text" class="form-control" name="adultAdmissionFee" th:value="${dto.adultAdmissionFee}"
+                   readonly>
         </div>
         <div class="form-group">
             <label>청소년 관람료</label>
-            <input type="text" class="form-control" name="teenagerAdmissionFee"  th:value="${dto.teenagerAdmissionFee}" readonly>
+            <input type="text" class="form-control" name="teenagerAdmissionFee" th:value="${dto.teenagerAdmissionFee}"
+                   readonly>
         </div>
         <div class="form-group">
             <label>어린이 관람료</label>
-            <input type="text" class="form-control" name="childrenAdmissionFee"  th:value="${dto.childrenAdmissionFee}" readonly>
+            <input type="text" class="form-control" name="childrenAdmissionFee" th:value="${dto.childrenAdmissionFee}"
+                   readonly>
         </div>
         <div class="form-group">
             <label>관람료 정보</label>
-            <input type="text" class="form-control" name="admissionFeeInformation" th:value="${dto.admissionFeeInformation}" readonly>
+            <input type="text" class="form-control" name="admissionFeeInformation"
+                   th:value="${dto.admissionFeeInformation}" readonly>
         </div>
 
-        <a th:href="@{/museum/modify(mno=${dto.mno}, page=${requestDTO.page}, type=${requestDTO.type}, keyword=${requestDTO.keyword})}">
-            <button type="button" class="btn btn-primary">수정</button>
-        </a>
+        <div sec:authorize="hasRole('ADMIN')">
+            <a th:href="@{/museum/modify(mno=${dto.mno}, page=${requestDTO.page}, type=${requestDTO.type}, keyword=${requestDTO.keyword})}">
+                <button type="button" class="btn btn-primary">수정</button>
+            </a>
+        </div>
         <a th:href="@{/museum/list(page=${requestDTO.page}, type=${requestDTO.type}, keyword=${requestDTO.keyword})}">
             <button type="button" class="btn btn-info">목록</button>
         </a>
@@ -68,7 +80,8 @@
         <div class="uploadResult">
             <ul>
                 <li th:each="museumImage: ${dto.imageDTOList}" th:data-file="${museumImage.getThumbnailURL()}">
-                    <img th:if="${museumImage.path != null}" th:src="|/display?fileName=${museumImage.getThumbnailURL()}|">
+                    <img th:if="${museumImage.path != null}"
+                         th:src="|/display?fileName=${museumImage.getThumbnailURL()}|">
                 </li>
             </ul>
         </div>
@@ -77,22 +90,23 @@
             <span class="badge badge-light">[[${dto.reviewCnt}]]</span>
         </button>
 
-        <button type="button" class="btn btn-info addReviewBtn">리뷰 작성</button>
+        <span sec:authorize="hasRole('USER')">
+            <button type="button" class="btn btn-info addReviewBtn">리뷰 작성</button>
+        </span>
         <div class="list-group reviewList">
 
         </div>
 
-<!--    모달창    -->
-<!--    음의 정수값(보통 tabindex="-1"): 연속 키보드 탐색으로 접근할 수는 없으나 JavaScript나 시각적(마우스 클릭)으로는 포커스 가능함을 뜻, 보통 JavaScript를 사용한 위젯의 접근성 확보를 위해 사용 -->
-<!--    role="dialog": HTML 기반의 애플리케이션의 다이얼로그 또는 콘텐츠를 분리하는 창 또는 다른 웹 애플리케이션의 UI 혹은 페이지를 마크업하는데 사용    -->
+        <!--    모달창    -->
+        <!--    음의 정수값(보통 tabindex="-1"): 연속 키보드 탐색으로 접근할 수는 없으나 JavaScript나 시각적(마우스 클릭)으로는 포커스 가능함을 뜻, 보통 JavaScript를 사용한 위젯의 접근성 확보를 위해 사용 -->
+        <!--    role="dialog": HTML 기반의 애플리케이션의 다이얼로그 또는 콘텐츠를 분리하는 창 또는 다른 웹 애플리케이션의 UI 혹은 페이지를 마크업하는데 사용    -->
         <div class="reviewModal modal" tabindex="-1" role="dialog">
-<!--        role="document": 보조 기술 사용자가 읽기 모드에서 검색 할 수 있다는 내용이 포함 된 상위 컨테이너    -->
+            <!--        role="document": 보조 기술 사용자가 읽기 모드에서 검색 할 수 있다는 내용이 포함 된 상위 컨테이너    -->
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">[[${dto.name}]] 박물관 리뷰 작성</h5>
-
-<!--                    data-dismiss="modal": 다이어로그(모달창) 닫기 -->
+                        <h5 class="modal-title">[[${dto.name}]] - 리뷰</h5>
+                        <!--                    data-dismiss="modal": 다이어로그(모달창) 닫기 -->
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -100,7 +114,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label>작성자 ID</label>
-                            <input type="text" class="form-control" name="email">
+                            <input type="text" class="form-control" name="email" readonly>
                         </div>
                         <div class="form-group">
                             <label>평점<span class="grade"></span></label>
@@ -121,12 +135,12 @@
             </div>
         </div>
 
-<!--    이미지 모달    -->
+        <!--    이미지 모달    -->
         <div class="imageModal modal " tabindex="-2" role="dialog">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">[[${dto.name}]] 박물관</h5>
+                        <h5 class="modal-title">[[${dto.name}]]</h5>
 
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -136,7 +150,7 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
                     </div>
                 </div>
             </div>
@@ -151,7 +165,7 @@
                 $('.starrr').starrr({
                     rating: grade,
                     change: function (e, value) {
-                        if(value) {
+                        if (value) {
                             console.log("평점 개수:" + value);
                             grade = value;
                         }
@@ -164,9 +178,12 @@
                 let inputEmail = $('input[name="email"]');
                 let inputText = $('input[name="text"]');
 
+                var login_user_id = $('#user_id').text(); // 로그인 한 사용자의 ID 가져오기
+                console.log(login_user_id);
+
                 // 리뷰 작성 버튼 클릭 시...
                 $(".addReviewBtn").click(function () {
-                    inputEmail.val("");
+                    inputEmail.val(login_user_id);
                     inputText.val("");
 
                     $(".removeBtn, .modifyBtn").hide(); // 삭제, 수정 버튼 숨김 처리
@@ -177,27 +194,27 @@
 
                 // 리뷰 작성 후 저장 버튼 클릭시...
                 $('.reviewSaveBtn').click(function () {
-                   let data = {mno:mno, grade:grade, text:inputText.val(), email:inputEmail.val()};
+                    let data = {mno: mno, grade: grade, text: inputText.val(), email: inputEmail.val()};
 
-                   console.log("data: " + data);
+                    console.log("data: " + data);
 
-                   $.ajax({
-                       url:'/reviews/' + mno,
-                       type:"POST",
-                       data:JSON.stringify(data),
-                       contentType:"application/json; charset=utf-8",
-                       dataType:"text",
-                       // beforeSend: function (jqXHR, settings) {
-                       //     var header = $("meta[name='_csrf_header']").attr("content");
-                       //     var token = $("meta[name='_csrf']").attr("content");
-                       //     jqXHR.setRequestHeader(header, token);
-                       // },
-                       success: function (result) {
-                           console.log("reviewSaveBtn result: " + result);
-                           self.location.reload();
-                       }
-                   });
-                   reviewModal.modal('hide'); // 저장 버튼 클릭 후 모달창 닫기
+                    $.ajax({
+                        url: '/reviews/' + mno,
+                        type: "POST",
+                        data: JSON.stringify(data),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "text",
+                        // beforeSend: function (jqXHR, settings) {
+                        //     var header = $("meta[name='_csrf_header']").attr("content");
+                        //     var token = $("meta[name='_csrf']").attr("content");
+                        //     jqXHR.setRequestHeader(header, token);
+                        // },
+                        success: function (result) {
+                            console.log("reviewSaveBtn result: " + result);
+                            self.location.reload();
+                        }
+                    });
+                    reviewModal.modal('hide'); // 저장 버튼 클릭 후 모달창 닫기
                 });
 
                 // 페이지가 열리면 바로 리뷰 데이터들을 가져와서 사용
@@ -222,9 +239,10 @@
                         $.each(arr, function (idx, review) {
                             // console.log("review: " + review);
                             // 객체의 key와 value 값 가져오기
-                            for(let key in review) {
-                              console.log(key + " : " + review[key]);
-                            };
+                            for (let key in review) {
+                                console.log(key + " : " + review[key]);
+                            }
+                            ;
 
                             // str += ' <div class="card-body" data-reviewNum=' + review.reviewNum + ' data-email=' + review.email +'>';
                             // str += ' <h5 class="card-title">' + review.text + ' <span>' + review.grade + '</span></h5>';
@@ -242,6 +260,7 @@
                         $(".reviewList").html(str);
                     });
                 }
+
                 getMuseumReviews();
 
                 // 특정한 리뷰창 선택하기
@@ -257,13 +276,19 @@
                     inputText.val(targetReview.find('.card-title').clone().children().remove().end().text());
 
                     let grade = targetReview.find('.card-title span').html();
-                    $(".starrr a:nth-child("+grade+")").trigger('click');
+                    $(".starrr a:nth-child(" + grade + ")").trigger('click');
 
                     $('.reviewModal').modal('show');
                 });
 
-                $(".modifyBtn").on("click", function (){
-                    let data = {reviewnum: reviewnum, mno:mno, grade:grade, text: inputText.val(), email: inputEmail.val()};
+                $(".modifyBtn").on("click", function () {
+                    let data = {
+                        reviewnum: reviewnum,
+                        mno: mno,
+                        grade: grade,
+                        text: inputText.val(),
+                        email: inputEmail.val()
+                    };
 
                     console.log("modifyBtn: " + data);
                     // for(var i in data) {
@@ -273,7 +298,7 @@
                     $.ajax({
                         url: '/reviews/' + mno + "/" + reviewnum,
                         type: "PUT",
-                        data:JSON.stringify(data),
+                        data: JSON.stringify(data),
                         contentType: "application/json; charset=utf-8",
                         dataType: "text",
                         // beforeSend: function (jqXHR, settings) {
@@ -289,15 +314,15 @@
                 });
                 reviewModal.modal('hide');
 
-                $(".removeBtn").on("click", function (){
-                   let data = {reviewnum: reviewnum};
-                   console.log("removeBtn: " + data);
+                $(".removeBtn").on("click", function () {
+                    let data = {reviewnum: reviewnum};
+                    console.log("removeBtn: " + data);
 
                     $.ajax({
-                        url:'/reviews/' + mno + "/" + reviewnum,
-                        type:"DELETE",
-                        contentType:"application/json; charset=utf-8",
-                        dataType:"text",
+                        url: '/reviews/' + mno + "/" + reviewnum,
+                        type: "DELETE",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "text",
                         // beforeSend: function (jqXHR, settings) {
                         //     var header = $("meta[name='_csrf_header']").attr("content");
                         //     var token = $("meta[name='_csrf']").attr("content");
@@ -311,13 +336,13 @@
                     reviewModal.modal('hide');
                 });
 
-                $(".uploadResult li").click(function (){
-                   var file = $(this).data('file');
-                   console.log("uploadResult li:" + file);
-                   // 모달창 body에 이미지 태그 추가, size 파라미터의 값을 이용해서 원본 이미지를 가져옴
-                   $('.imageModal .modal-body').html("<img style='width:100%' src='/display?fileName=" + file + "&size=1' >");
-                   // 모달창에서 원본 이미지 보기
-                   $(".imageModal").modal("show");
+                $(".uploadResult li").click(function () {
+                    var file = $(this).data('file');
+                    console.log("uploadResult li:" + file);
+                    // 모달창 body에 이미지 태그 추가, size 파라미터의 값을 이용해서 원본 이미지를 가져옴
+                    $('.imageModal .modal-body').html("<img style='width:100%' src='/display?fileName=" + file + "&size=1' >");
+                    // 모달창에서 원본 이미지 보기
+                    $(".imageModal").modal("show");
                 });
             });
         </script>

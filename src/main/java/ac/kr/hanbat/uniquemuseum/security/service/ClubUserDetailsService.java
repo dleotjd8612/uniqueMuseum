@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -60,29 +61,17 @@ public class ClubUserDetailsService implements UserDetailsService {
     }
 
     @Transactional
-    public void createUser(MemberDTO memberDTO) {
-        log.info("memberDTO memberDTO: " + memberDTO);
+    public String createUser(MemberDTO memberDTO) {
+        log.info("memberDTO: " + memberDTO);
 
         memberDTO.setPassword(passwordEncoder.encode(memberDTO.getPassword()));
 
         Member member = dtoToEntity(memberDTO);
-        Optional<Member> result = memberRepository.findByEmail(member.getEmail(), false);
-        log.info("aaaaaaa: " + result.get());
-
-        String prevEmail = memberDTO.getEmail();
-        String newEmail = result.get().getEmail();
-
-        log.info("ppppppppppppp" + prevEmail);
-        log.info("nnnnnnnnnnnnn" + newEmail);
-
-//        여기서 중복 체크 처리 해야 함
-//        if(memberDTO.getEmail() != result.get().getEmail()) {
-//            memberRepository.save(member);
-//            log.info("존재하지 않는 회원입니다.");
-//        } else {
-//            log.info("이미 존재하는 회원입니다.");
-//        }
-
+        if(memberRepository.existsById(member.getEmail())) {
+            return "이미 존재하는 아이디입니다.";
+        }
+        memberRepository.save(member);
+        return member.getEmail();
     }
 
     private Member dtoToEntity(MemberDTO dto) {

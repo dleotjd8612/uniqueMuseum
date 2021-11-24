@@ -76,49 +76,31 @@
     <!--    </div>-->
     <!-- /#sidebar-wrapper -->
 
-    <!-- Page Content -->
+    <!-- 헤더 -->
     <div id="page-content-wrapper">
         <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-            <a th:href="@{/}"><label>이색 박물관 로고</label></a>
+            <a th:href="@{/}"><img style="width: 250px" th:src="@{/images/logo.png}"></a>
+<!--            <a th:href="@{/}"><label>이색 박물관 로고</label></a>-->
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
                     <li class="nav-item active">
                         <span><a th:href="@{/}"><button type="button" class="btn btn-info">HOME</button></a></span>
                         <span><a th:href="@{/member/signup}"><button sec:authorize="isAnonymous()" type="button" class="btn btn-primary">회원가입</button></a></span>
                         <span><a th:href="@{/login}"><button sec:authorize="isAnonymous()" type="button" class="btn btn-dark">로그인</button></a></span>
-                        <span><a href="#"><button sec:authorize="isAuthenticated()" type="button" class="btn btn-primary">마이페이지</button></a></span>
+                        <span><a th:href="@{/member/mypage}"><button sec:authorize="isAuthenticated()" type="button" class="btn btn-primary">마이페이지</button></a></span>
                         <span><a th:href="@{/logout}"><button sec:authorize="isAuthenticated()" type="button"class="btn btn-warning">로그아웃</button></a></span>
+                        <span sec:authorize="hasRole('USER')"><span sec:authentication="name"></span></span>
                     </li>
-
-                    <!--                    <li class="nav-item active">-->
-                    <!--                        <span><a href="#"><button sec:authorize="isAnonymous()" type="button" class="btn btn-primary">회원가입</button></a></span>-->
-                    <!--                        <span><a th:href="@{/login}"><button sec:authorize="isAnonymous()" type="button" class="btn btn-dark">로그인</button></a></span>-->
-                    <!--                    </li>-->
-                    <!--                    <li class="nav-item active">-->
-                    <!--                        <span><a href="#"><button sec:authorize="isAuthenticated()" type="button" class="btn btn-primary">회원정보보기</button></a></span>-->
-                    <!--                        <span><a th:href="@{/logout}"><button sec:authorize="isAuthenticated()" type="button" class="btn btn-warning">로그아웃</button></a></span>-->
-                    <!--                    </li>-->
-                    <!--                    <li class="nav-item">-->
-                    <!--                        <a class="nav-link" href="#">Link</a>-->
-                    <!--                    </li>-->
-                    <!--                    <li class="nav-item dropdown">-->
-                    <!--                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-                    <!--                            Dropdown-->
-                    <!--                        </a>-->
-                    <!--                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">-->
-                    <!--                            <a class="dropdown-item" href="#">Action</a>-->
-                    <!--                            <a class="dropdown-item" href="#">Another action</a>-->
-                    <!--                            <div class="dropdown-divider"></div>-->
-                    <!--                            <a class="dropdown-item" href="#">Something else here</a>-->
-                    <!--                        </div>-->
-                    <!--                    </li>-->
                 </ul>
             </div>
         </nav>
+<!--      내용  -->
         <div class="container-fluid">
             <th:block th:replace="${content}"></th:block>
         </div>
     </div>
+
+<!--    푸터-->
     <div class="container">
         <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
             <p class="col-md-4 mb-0 text-muted">&copy; 2021 Company, Inc</p>

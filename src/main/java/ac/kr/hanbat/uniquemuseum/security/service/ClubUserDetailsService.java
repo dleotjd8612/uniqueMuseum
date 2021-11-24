@@ -2,8 +2,11 @@ package ac.kr.hanbat.uniquemuseum.security.service;
 
 import ac.kr.hanbat.uniquemuseum.dto.AuthMemberDTO;
 import ac.kr.hanbat.uniquemuseum.dto.MemberDTO;
+import ac.kr.hanbat.uniquemuseum.dto.MuseumDTO;
 import ac.kr.hanbat.uniquemuseum.entity.Member;
 import ac.kr.hanbat.uniquemuseum.entity.MemberRole;
+import ac.kr.hanbat.uniquemuseum.entity.Museum;
+import ac.kr.hanbat.uniquemuseum.entity.MuseumImage;
 import ac.kr.hanbat.uniquemuseum.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -16,6 +19,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -62,7 +67,7 @@ public class ClubUserDetailsService implements UserDetailsService {
 
     @Transactional
     public String createUser(MemberDTO memberDTO) {
-        log.info("memberDTO: " + memberDTO);
+        log.info("createUser memberDTO: " + memberDTO);
 
         memberDTO.setPassword(passwordEncoder.encode(memberDTO.getPassword()));
 
@@ -72,6 +77,17 @@ public class ClubUserDetailsService implements UserDetailsService {
         }
         memberRepository.save(member);
         return member.getEmail();
+    }
+
+    @Transactional
+    public Member memberInfoModification(MemberDTO memberDTO) {
+        log.info("memberInfoModification memberDTO: " + memberDTO);
+
+        memberDTO.setPassword(passwordEncoder.encode(memberDTO.getPassword()));
+
+        Member member = dtoToEntity(memberDTO);
+        memberRepository.save(member);
+        return member;
     }
 
     private Member dtoToEntity(MemberDTO dto) {
@@ -98,5 +114,8 @@ public class ClubUserDetailsService implements UserDetailsService {
         return memberDTO;
     }
 
-
+    public MemberDTO getMember(String email) {
+        Member member = memberRepository.getById(email);
+        return entityToDTO(member);
+    }
 }

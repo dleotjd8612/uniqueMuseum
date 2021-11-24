@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<th:block th:replace="~{layout/basic::setContent(~{this::content})}">
+    <th:block th:fragment="content">
+        <h1>[[${member_dto.nickname}]]님 회원 정보 - <span sec:authentication="principal.authorities"></span></h1>
+        <form th:action="@{/member/mypage}" th:method="post" name="form" onsubmit="return empty_check()"><br>
+            <div class="form-group">
+                <label>이메일 - ID</label>
+                <input type="email" class="form-control" name="email" th:value="${member_dto.email}" readonly>
+            </div>
+            <div class="form-group">
+                <label>비밀번호 1차</label>
+                <input type="password" class="form-control" name="password" placeholder="변경할 비밀번호를 입력하시오.">
+            </div>
+            <div class="form-group">
+                <label>비밀번호 2차</label>
+                <input type="password" class="form-control" name="password2" placeholder="변경할 비밀번호를 입력하시오.">
+            </div>
+            <div class="form-group">
+                <label>닉네임</label>
+                <input type="text" class="form-control" name="nickname" th:value="${member_dto.nickname}">
+            </div>
+            <div class="form-group">
+                <input type="hidden" class="form-control" name="fromsocial" value="false" readonly>
+            </div>
+            <div class="form-group">
+                <input type="hidden" class="form-control" name="roleset" value="USER" readonly>
+            </div>
+            <div class="uploadResult">
+
+            </div>
+            <button type="submit" class="btn btn-primary">회원 정보 수정</button>
+        </form>
+
+        <script th:inline="javascript">
+            // var formData = new FormData();
+            // let form = $('form');
+            // console.log(form);
+            // var result = [[${result}]];
+            // if(result != null) {
+            //     if(result === '이미 존재하는 아이디입니다.') alert(result);
+            //     else {
+            //         alert(result + "님 회원 가입을 축하드립니다.\n로그인 해주시기 바랍니다.");
+            //         location.href = "/login";
+            //     }
+            // }
+
+            function empty_check() {
+                if(form.email.value === '') {
+                    form.email.focus();
+                    return false;
+                } else if (form.password.value === '') {
+                    form.password.focus();
+                    return false;
+                } else if (form.password2.value === '') {
+                    form.password2.focus();
+                    return false;
+                } else if(form.password.value !== form.password2.value) {
+                    alert("비밀번호가 일치하지 않습니다.");
+                    form.password.focus();
+                    form.password.select();
+                    return false;
+                } else if(form.nickname.value === '') {
+                    form.nickname.focus();
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        </script>
+
+    </th:block>
+</th:block>
+</html>

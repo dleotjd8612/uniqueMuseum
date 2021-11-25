@@ -1,5 +1,6 @@
 package ac.kr.hanbat.uniquemuseum.config;
 
+import ac.kr.hanbat.uniquemuseum.security.handler.ClubLoginSuccessHandler;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -42,7 +43,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.logout() // 로그아웃 페이지로 이동
                 .logoutSuccessUrl("/museum/list");
         
-        http.oauth2Login(); // 구글 계정 로그인
+        http.oauth2Login().successHandler(successHandler()); // 구글 계정 로그인
+    }
+
+    @Bean
+    public ClubLoginSuccessHandler successHandler() {
+        return new ClubLoginSuccessHandler(passwordEncoder());
     }
 
 //    @Override

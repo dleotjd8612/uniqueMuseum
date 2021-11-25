@@ -42,6 +42,8 @@ dependencies {
     implementation 'com.querydsl:querydsl-jpa'
     // https://mvnrepository.com/artifact/org.thymeleaf.extras/thymeleaf-extras-springsecurity5
     implementation group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-springsecurity5'
+    // https://mvnrepository.com/artifact/org.springframework.security/spring-security-oauth2-client
+    implementation group: 'org.springframework.security', name: 'spring-security-oauth2-client'
 }
 
 test {

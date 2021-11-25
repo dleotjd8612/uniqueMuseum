@@ -41,6 +41,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable(); // CSRF 토큰을 발행하지 않도록 설정
         http.logout() // 로그아웃 페이지로 이동
                 .logoutSuccessUrl("/museum/list");
+        
+        http.oauth2Login(); // 구글 계정 로그인
     }
 
 //    @Override

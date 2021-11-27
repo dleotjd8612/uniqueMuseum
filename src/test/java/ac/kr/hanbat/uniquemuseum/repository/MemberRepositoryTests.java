@@ -21,16 +21,16 @@ public class MemberRepositoryTests {
     private ReviewRepository reviewRepository;
 
     @Test
-    public void insertMember() { // 사용자 추가
+    public void insertMember() { // 관리자 추가
         Member member = Member.builder()
-                .email("user@test.com")
+                .email("admin@test.com")
                 .password(passwordEncoder.encode("1111"))
-                .nickname("사용자")
+                .nickname("관리자")
                 .fromSocial(false)
                 .build();
         member.addMemberRole(MemberRole.USER);
-//        member.addMemberRole(MemberRole.MANAGER);
-//        member.addMemberRole(MemberRole.ADMIN);
+        member.addMemberRole(MemberRole.MANAGER);
+        member.addMemberRole(MemberRole.ADMIN);
         memberRepository.save(member);
     }
 
@@ -38,7 +38,7 @@ public class MemberRepositoryTests {
     public void insertMembers() {
         IntStream.rangeClosed(1, 100).forEach(i -> {
             Member member = Member.builder()
-                    .email("user" + i + "@hanbat.ac.kr")
+                    .email("user" + i + "@test.ac.kr")
                     .password(passwordEncoder.encode("1111"))
                     .nickname("사용자" + i)
                     .fromSocial(false)

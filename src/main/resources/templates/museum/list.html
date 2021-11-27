@@ -17,10 +17,10 @@
                     <div class="input-group-prepend">
                         <select class="custom-select" name="type">
                             <option th:selected="${pageRequestDTO.type == null}">------</option>
-                            <option value="n" th:selected="${pageRequestDTO.type == 'n'}">박물관 명</option>
-                            <option value="a" th:selected="${pageRequestDTO.type == 'a'}">박물관 주소</option>
-                            <option value="i" th:selected="${pageRequestDTO.type == 'i'}">작성자 닉네임</option>
-                            <option value="t" th:selected="${pageRequestDTO.type == 't'}">리뷰 내용</option>
+                            <option value="n" th:selected="${pageRequestDTO.type == 'n'}">이름</option>
+                            <option value="a" th:selected="${pageRequestDTO.type == 'a'}">지역별</option>
+                            <option value="i" th:selected="${pageRequestDTO.type == 'i'}">작성자별</option>
+                            <option value="t" th:selected="${pageRequestDTO.type == 't'}">내용</option>
                             <option value="nait" th:selected="${pageRequestDTO.type == 'nait'}">ALL</option>
                         </select>
                     </div>

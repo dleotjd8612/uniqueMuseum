@@ -1,6 +1,7 @@
 package ac.kr.hanbat.uniquemuseum.service;
 
 import ac.kr.hanbat.uniquemuseum.dto.MuseumDTO;
+import ac.kr.hanbat.uniquemuseum.dto.MuseumImageDTO;
 import ac.kr.hanbat.uniquemuseum.dto.PageRequestDTO;
 import ac.kr.hanbat.uniquemuseum.dto.PageResultDTO;
 import ac.kr.hanbat.uniquemuseum.entity.*;
@@ -105,23 +106,18 @@ public class MuseumServiceImpl implements MuseumService {
         // JPA를 이용하여 파라미터로 넘어온 MuseumDTO 객체 안에 있는 mno를 가진 데이터를 Museum Entity 클래스 변수에 저장
         log.info(museumDTO.getMno());
         // JPA를 이용하여 파라미터로 넘오온 MuseumDTO 객체 안에 있는 mno를 가진 데이터를 Museum Entity 클래스 변수에 저장
-        Museum museum = museumRepository.getOne(museumDTO.getMno());
+        museumImageRepository.deleteByImages(museumDTO.getMno()); // 기존 이미지들 삭제
 
-        museum.setName(museumDTO.getName());
-        museum.setAddress(museumDTO.getAddress());
-        museum.setNumber(museumDTO.getNumber());
-        museum.setConvenienceFacilityInformation(museumDTO.getConvenienceFacilityInformation());
-        museum.setWeekdaysOpen(LocalTime.parse(museumDTO.getWeekdaysOpen(), DateTimeFormatter.ISO_LOCAL_TIME));
-        museum.setWeekdaysClose(LocalTime.parse(museumDTO.getWeekdaysClose(), DateTimeFormatter.ISO_LOCAL_TIME));
-        museum.setWeekendOpen(LocalTime.parse(museumDTO.getWeekendOpen(), DateTimeFormatter.ISO_LOCAL_TIME));
-        museum.setWeekendClose(LocalTime.parse(museumDTO.getWeekendClose(), DateTimeFormatter.ISO_LOCAL_TIME));
-        museum.setClosingInformation(museumDTO.getClosingInformation());
-        museum.setAdultAdmissionFee(museumDTO.getAdultAdmissionFee());
-        museum.setTeenagerAdmissionFee(museumDTO.getTeenagerAdmissionFee());
-        museum.setChildrenAdmissionFee(museumDTO.getChildrenAdmissionFee());
-        museum.setAdmissionFeeInformation(museumDTO.getAdmissionFeeInformation());
+        Map<String, Object> entityMap = dtoToEntity(museumDTO);
+        Museum museum = (Museum) entityMap.get("museum");
+        List<MuseumImage> museumImageList = (List<MuseumImage>) entityMap.get("imgList");
+        log.info("museum1: " + museum);
+        log.info("museumImage1: " + museumImageList);
 
-        museumRepository.save(museum); // JPA를 이용하여 museum 객체를 데이터베이스에 수정(update문) 결과를 저장
+        museumRepository.save(museum);
+        museumImageList.forEach(museumImage -> {
+            museumImageRepository.save(museumImage);
+        });
     }
 
     private BooleanBuilder getSearch(PageRequestDTO requestDTO) { //Querydsl 처리

@@ -3,6 +3,12 @@
 <th:block th:replace="~{layout/basic::setContent(~{this::content})}">
     <th:block th:fragment="content">
         <h1 class="mt-4">[[${dto.name}]]</h1>
+        <div class="" style="align-self: center">
+            <div id="map" style="width:100%;height:350px;">
+
+            </div>
+        </div>
+        <br>
         <div class="form-group">
             <label>박물관 이름</label>
             <input type="text" class="form-control" id="name" name="name" th:value="${dto.name}" readonly>
@@ -89,9 +95,11 @@
         <button type="button" class="btn btn-primary">리뷰 개수
             <span class="badge badge-light">[[${dto.reviewCnt}]]</span>
         </button>
-        <span><a th:href="@{/login}"><button sec:authorize="isAnonymous()" type="button" class="btn btn-info">리뷰 작성</button></a></span>
-        <span><button sec:authorize="isAuthenticated()" type="button"class="btn btn-info addReviewBtn">리뷰 작성</button></span>
-<!--        <button type="button" class="btn btn-info addReviewBtn">리뷰 작성</button>-->
+        <span><a th:href="@{/login}"><button sec:authorize="isAnonymous()" type="button"
+                                             class="btn btn-info">리뷰 작성</button></a></span>
+        <span><button sec:authorize="isAuthenticated()" type="button"
+                      class="btn btn-info addReviewBtn">리뷰 작성</button></span>
+        <!--        <button type="button" class="btn btn-info addReviewBtn">리뷰 작성</button>-->
         <div class="list-group reviewList">
 
         </div>
@@ -343,6 +351,49 @@
                     // 모달창에서 원본 이미지 보기
                     $(".imageModal").modal("show");
                 });
+            });
+
+        </script>
+        <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7887fec952282960326466b55d467199&libraries=services"></script>
+        <script>
+            var address = '[[${dto.address}]]';
+            console.log(address);
+
+            var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+                mapOption = {
+                    center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+                    level: 3 // 지도의 확대 레벨
+                };
+
+            // 지도를 생성합니다
+            var map = new kakao.maps.Map(mapContainer, mapOption);
+
+            // 주소-좌표 변환 객체를 생성합니다
+            var geocoder = new kakao.maps.services.Geocoder();
+
+            // 주소로 좌표를 검색합니다
+            geocoder.addressSearch(address, function(result, status) {
+
+                // 정상적으로 검색이 완료됐으면
+                if (status === kakao.maps.services.Status.OK) {
+
+                    var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+                    // 결과값으로 받은 위치를 마커로 표시합니다
+                    var marker = new kakao.maps.Marker({
+                        map: map,
+                        position: coords
+                    });
+
+                    // 인포윈도우로 장소에 대한 설명을 표시합니다
+                    var infowindow = new kakao.maps.InfoWindow({
+                        content: '<div style="width:150px;text-align:center;padding:6px 0;">[[${dto.name}]]</div>'
+                    });
+                    infowindow.open(map, marker);
+
+                    // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+                    map.setCenter(coords);
+                }
             });
         </script>
     </th:block>

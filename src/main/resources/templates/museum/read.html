@@ -8,7 +8,8 @@
 
             </div>
         </div>
-        <br>
+        <a th:href="@{https://map.kakao.com/}"><button class="btn btn-danger">길찾기 바로가기</button></a>
+        <br><br>
         <div class="form-group">
             <label>박물관 이름</label>
             <input type="text" class="form-control" id="name" name="name" th:value="${dto.name}" readonly>

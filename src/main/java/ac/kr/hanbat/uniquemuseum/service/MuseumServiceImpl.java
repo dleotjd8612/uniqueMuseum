@@ -51,11 +51,6 @@ public class MuseumServiceImpl implements MuseumService {
 
     @Override
     public PageResultDTO<MuseumDTO, Object[]> getList(PageRequestDTO pageRequestDTO) { // 박물관 목록 리스트
-//        Pageable pageable = pageRequestDTO.getPageable(Sort.by("mno").descending());
-//
-//        BooleanBuilder booleanBuilder = getSearch(pageRequestDTO); // 검색 조건 처리
-        // Querydsl 사용
-//        Page<Object[]> result = museumRepository.getListPage(pageable);
 
         Page<Object[]> result = museumRepository.searchPage(
                 pageRequestDTO.getType(),
@@ -66,7 +61,7 @@ public class MuseumServiceImpl implements MuseumService {
         // asList(): 일반 배열을 arrayList로 변환
         Function<Object[], MuseumDTO> fn = (arr -> entitiesToDTO(
                 (Museum) arr[0],
-                (List<MuseumImage>) (Arrays.asList((MuseumImage)arr[1])),
+                (List<MuseumImage>) (Arrays.asList((MuseumImage) arr[1])),
                 (Double) arr[2],
                 (Long) arr[3]
         ));
@@ -132,23 +127,23 @@ public class MuseumServiceImpl implements MuseumService {
         BooleanExpression expression = qMuseum.mno.gt(0L); // gno > 0
         booleanBuilder.and(expression);
 
-        if(type == null || type.trim().length() == 0) { // 검색 조건이 없는 경우
-            return  booleanBuilder;
+        if (type == null || type.trim().length() == 0) { // 검색 조건이 없는 경우
+            return booleanBuilder;
         }
 
         // 검색 조건 작성
         BooleanBuilder conditionBuilder = new BooleanBuilder();
 
-        if(type.contains("n")) { // 박물관 이름
+        if (type.contains("n")) { // 박물관 이름
             conditionBuilder.or(qMuseum.name.contains(keyword));
         }
-        if(type.contains("a")) { // 박물관 주소
+        if (type.contains("a")) { // 박물관 주소
             conditionBuilder.or(qMuseum.address.contains(keyword));
         }
-        if(type.contains("i")) { // 회원 닉네임
+        if (type.contains("i")) { // 회원 닉네임
             conditionBuilder.or(qMember.nickname.contains(keyword));
         }
-        if(type.contains("t")) { // 리뷰 내용
+        if (type.contains("t")) { // 리뷰 내용
             conditionBuilder.or(qReview.text.contains(keyword));
         }
 

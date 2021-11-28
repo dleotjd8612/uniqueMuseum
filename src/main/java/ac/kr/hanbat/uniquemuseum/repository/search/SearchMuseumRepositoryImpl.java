@@ -73,6 +73,7 @@ public class SearchMuseumRepositoryImpl extends QuerydslRepositorySupport implem
         // BooleanBuilder: 쿼리의 조건 설정인 where뒤의 조건을 생성해주는 것
         // BooleanExpression: 복잡한 동적 쿼리를 표현, QueryDSL Repository의 표현을 좀더 직관적으로 볼 수 있도록 리팩토링하는 과정
         BooleanBuilder booleanBuilder = new BooleanBuilder();
+        // 기본 조건 추가
         BooleanExpression expression = museum.mno.gt(0L);
         // and(): 생성한 조건을 추가
         booleanBuilder.and(expression);
@@ -113,7 +114,7 @@ public class SearchMuseumRepositoryImpl extends QuerydslRepositorySupport implem
         sort.stream().forEach(order -> {
             // isAscending(): 현재 설정된 정렬 조건 검사
             Order direction = order.isAscending()? Order.ASC : Order.DESC;
-            // getProperty(): 컬럼을 가져온다. (예: order by bno desc면 bno를 가져오는 것)
+            // getProperty(): 컬럼을 가져온다. (예: order by mno desc면 mno를 가져오는 것)
             String prop = order.getProperty();
 
             // PathBuilder: Sort 객체의 속성 등을 처리, PathBuilder 객체 생성 시, 문자열로 된 이름은 JPQLQuery를 생성할 때 이용하면 변수명과 동일해야 한다.

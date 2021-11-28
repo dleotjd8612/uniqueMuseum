@@ -30,6 +30,7 @@
             <a class="navbar-brand" href="/">The Hitchhiker's Guide To The Museum</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <span>
+                <span sec:authorize="hasRole('USER')" style="color: white"><b><span sec:authentication="name" name="user_id" id="user_id"></span></b>님 환영합니다.&nbsp;&nbsp;&nbsp;</span>
                 <a class="btn btn-outline-light btn-lg px-4" th:href="@{/member/signup}" sec:authorize="isAnonymous()">회원가입하기</a>
                 <a class="btn btn-outline-warning btn-lg px-4 me-sm-3" th:href="@{/login}" sec:authorize="isAnonymous()">로그인</a>
                 <a class="btn btn-outline-light btn-lg px-4" th:href="@{/member/mypage}" sec:authorize="isAuthenticated()">마이페이지</a>
@@ -125,7 +126,7 @@
                         <img class="card-img-top" src="https://t1.daumcdn.net/cfile/tistory/9993503E5AAE2E7204" alt="..." />
                         <div class="card-body p-4">
                             <div class="badge bg-primary bg-gradient rounded-pill mb-2">특이한 박물관</div>
-                            <a class="text-decoration-none link-dark stretched-link" href="#!"><h5 class="card-title mb-3">부엉이 박물관</h5></a>
+                            <a class="text-decoration-none link-dark stretched-link" href="https://place.map.kakao.com/7908318" target="_blank"><h5 class="card-title mb-3">부엉이 박물관</h5></a>
                             <p class="card-text mb-0">주소 : 서울 특별시 북촌로143 <br><br> 연락처 : 02 - 3210 - 2902
                                 <br><br>관람시간 : 매일 10:00 - 18:00 (월요일 휴무) <br><br>관람료 : 3000 - 5000원</p>
                         </div>
@@ -137,7 +138,7 @@
                         <img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR38yQ68W235lCSlbTcCOymKbk0roMDeA0VhQ&usqp=CAU" alt="..." />
                         <div class="card-body p-4">
                             <div class="badge bg-primary bg-gradient rounded-pill mb-2">연인들을 위한 좋은 박물관</div>
-                            <a class="text-decoration-none link-dark stretched-link" href="#!"><h5 class="card-title mb-3">한국 만화 박물관</h5></a>
+                            <a class="text-decoration-none link-dark stretched-link" href="https://place.map.kakao.com/11356267" target="_blank"><h5 class="card-title mb-3">한국 만화 박물관</h5></a>
                             <p class="card-text mb-0">주소 : 경기 부천시 길주로1<br><br>연락처 : 032-310-3090
                                 <br><br>관람시간 : 10:00 - 18:00 (월요일 휴무) <br><br>관람료 : 5000원 </p>
                         </div>
@@ -148,7 +149,7 @@
                         <img class="card-img-top" src="https://d2mgzmtdeipcjp.cloudfront.net/files/good/2021/08/23/16297085559374.jpg" alt="..." />
                         <div class="card-body p-4">
                             <div class="badge bg-primary bg-gradient rounded-pill mb-2">아이와 가면 좋은 박물관</div>
-                            <a class="text-decoration-none link-dark stretched-link" href="#!"><h5 class="card-title mb-3">바니베어 박물관</h5></a>
+                            <a class="text-decoration-none link-dark stretched-link" href="https://place.map.kakao.com/919090064" target="_blank"><h5 class="card-title mb-3">바니베어 박물관</h5></a>
                             <p class="card-text mb-0">주소 : 경북 경주시 보문로 280-34<br><br>연락처 : 054-746-1991
                                 <br><br>관람시간 : 10:00 - 20:00 <br><br>관람료 : 12000원</p>
                         </div>

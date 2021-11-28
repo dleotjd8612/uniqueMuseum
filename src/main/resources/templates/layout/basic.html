@@ -9,7 +9,7 @@
         <meta name="author" content="">
         <!--    <meta name="_csrf" th:content="${_csrf.token}">-->
         <!--    <meta name="_csrf_header" th:content="${_csrf.headerName}">-->
-        <title>이색 박물관</title>
+        <title>The Museum</title>
 
         <!-- Bootstrap core CSS -->
         <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
@@ -32,6 +32,11 @@
                 margin: 0px;
                 padding: 0px;
             }
+            body {
+                width: 80%;
+                margin: 0 auto;
+            }
+
             .uploadResult {
                 width: 100%;
                 background-color: gray;
@@ -60,22 +65,6 @@
     </head>
 
     <body>
-
-
-    <!-- Sidebar -->
-    <!--    <div class="bg-light border-right" id="sidebar-wrapper">-->
-    <!--        <a th:href="@{/}"><div class="sidebar-heading">이색 박물관 로고</div></a>-->
-    <!--        <div class="list-group list-group-flush">-->
-    <!--            <a href="#" class="list-group-item list-group-item-action bg-light">게시판</a>-->
-    <!--            <a href="#" class="list-group-item list-group-item-action bg-light">Shortcuts</a>-->
-    <!--            <a href="#" class="list-group-item list-group-item-action bg-light">Overview</a>-->
-    <!--            <a href="#" class="list-group-item list-group-item-action bg-light">Events</a>-->
-    <!--            <a href="#" class="list-group-item list-group-item-action bg-light">Profile</a>-->
-    <!--            <a href="#" class="list-group-item list-group-item-action bg-light">Status</a>-->
-    <!--        </div>-->
-    <!--    </div>-->
-    <!-- /#sidebar-wrapper -->
-
     <!-- 헤더 -->
     <div id="page-content-wrapper">
         <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">

@@ -2,13 +2,14 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <th:block th:replace="~{layout/basic::setContent(~{this::content})}">
     <th:block th:fragment="content">
-        <h1 class="mt-4">[[${dto.name}]]</h1>
+        <h1 class="mt-4">[[${dto.name}]] -
+            <a th:href="@{https://map.kakao.com/}"><button class="btn btn-danger">길찾기 바로가기</button></a>
+        </h1>
         <div class="" style="align-self: center">
             <div id="map" style="width:100%;height:350px;">
 
             </div>
         </div>
-        <a th:href="@{https://map.kakao.com/}"><button class="btn btn-danger">길찾기 바로가기</button></a>
         <br><br>
         <div class="form-group">
             <label>박물관 이름</label>

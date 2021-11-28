@@ -21,6 +21,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class MuseumController {
     private final MuseumService museumService;
 
+    @PreAuthorize("permitAll()")
+    @GetMapping("index")
+    public void index() {
+
+    }
+
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("register")
     public void register() { // 박물관 등록 페이지 호출

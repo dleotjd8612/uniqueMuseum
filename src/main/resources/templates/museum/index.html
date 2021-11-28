@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>The Museum</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="css/styles.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <style>
+        .carousel-inner {
+            width: 70%;
+        }
+    </style>
+
+</head>
+<body class="d-flex flex-column h-100">
+<main class="flex-shrink-0">
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container px-5">
+            <a class="navbar-brand" href="/">The Hitchhiker's Guide To The Museum</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <span>
+                <a class="btn btn-outline-light btn-lg px-4" th:href="@{/member/signup}" sec:authorize="isAnonymous()">회원가입하기</a>
+                <a class="btn btn-outline-warning btn-lg px-4 me-sm-3" th:href="@{/login}" sec:authorize="isAnonymous()">로그인</a>
+                <a class="btn btn-outline-light btn-lg px-4" th:href="@{/member/mypage}" sec:authorize="isAuthenticated()">마이페이지</a>
+                <a class="btn btn-outline-danger btn-lg px-4" th:href="@{/logout}" sec:authorize="isAuthenticated()">로그아웃</a>
+            </span>
+        </div>
+    </nav>
+    <!-- Header-->
+    <header class="bg-dark py-5">
+        <div class="container px-5">
+            <div class="row gx-5 align-items-center justify-content-center">
+                <div class="col-lg-8 col-xl-7 col-xxl-6">
+                    <div class="my-5 text-center text-xl-start">
+                        <h1 class="display-5 fw-bolder text-white mb-2">박물관을 관람하는 히치하이커를 위한 안내서</h1>
+                        <p class="lead fw-normal text-white-50 mb-4">여러 박물관들에 정보와 위치를 알려드립니다!</p>
+                        <div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xl-start">
+                            <a class="btn btn-primary btn-lg px-4 me-sm-3" th:href="@{/museum/list}">박물관 검색하기</a>
+<!--                            <a class="btn btn-outline-light btn-lg px-4" th:href="@{/member/signup}" sec:authorize="isAnonymous()">회원가입하기</a>-->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-5 col-xxl-6 d-none d-xl-block text-center"><img class="img-fluid rounded-3 my-5" src="https://cdn.pixabay.com/photo/2021/08/20/18/33/british-museum-6561029_960_720.jpg" alt="..." /></div>
+            </div>
+        </div>
+    </header>
+    <br>
+    <center>
+        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4" aria-label="Slide 5"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="https://cdn.pixabay.com/photo/2013/04/11/19/46/building-102840_960_720.jpg" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="https://cdn.pixabay.com/photo/2019/07/03/09/41/national-history-museum-4314035_960_720.jpg" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="https://cdn.pixabay.com/photo/2016/03/27/16/23/woman-1283009_960_720.jpg" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="https://cdn.pixabay.com/photo/2016/09/08/22/43/books-1655783_960_720.jpg" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="https://cdn.pixabay.com/photo/2017/11/30/18/55/castel-santangelo-2989238_960_720.jpg" class="d-block w-100" alt="...">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </center>
+    <div class="py-5 bg-light">
+        <div class="container px-5 my-5">
+            <div class="row gx-5 justify-content-center">
+                <div class="col-lg-10 col-xl-7">
+                    <div class="text-center">
+                        <div class="fs-4 mb-4 fst-italic">"너무 많이 가봤던 박물관이 지겨워지거나,
+                            <br> 관람만 해야하는 박물관이 지루하시지 않았나요?
+                            <br><br><br> 그런 분들은 위해 <br> <strong>박물관 관람하는 히치하이커를 위한 안내서</strong> 사이트는
+                            <br> 다양한 박물관에 정보와 위치를 알려드립니다.
+                            <br><br><br> 이제는 <strong>새로운 박물관</strong>을 찾아보세요! "</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Blog preview section-->
+    <section class="py-5">
+        <div class="container px-5 my-5">
+            <div class="row gx-5 justify-content-center">
+                <div class="col-lg-8 col-xl-6">
+                    <div class="text-center">
+                        <h2 class="fw-bolder">이런 박물관들이 있어요</h2>
+                        <p class="lead fw-normal text-muted mb-5">여러가지 박물관들을 소개시켜드릴게요</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row gx-5">
+                <div class="col-lg-4 mb-5">
+                    <div class="card h-100 shadow border-0">
+                        <img class="card-img-top" src="https://t1.daumcdn.net/cfile/tistory/9993503E5AAE2E7204" alt="..." />
+                        <div class="card-body p-4">
+                            <div class="badge bg-primary bg-gradient rounded-pill mb-2">특이한 박물관</div>
+                            <a class="text-decoration-none link-dark stretched-link" href="#!"><h5 class="card-title mb-3">부엉이 박물관</h5></a>
+                            <p class="card-text mb-0">주소 : 서울 특별시 북촌로143 <br><br> 연락처 : 02 - 3210 - 2902
+                                <br><br>관람시간 : 매일 10:00 - 18:00 (월요일 휴무) <br><br>관람료 : 3000 - 5000원</p>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-5">
+                    <div class="card h-100 shadow border-0">
+                        <img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR38yQ68W235lCSlbTcCOymKbk0roMDeA0VhQ&usqp=CAU" alt="..." />
+                        <div class="card-body p-4">
+                            <div class="badge bg-primary bg-gradient rounded-pill mb-2">연인들을 위한 좋은 박물관</div>
+                            <a class="text-decoration-none link-dark stretched-link" href="#!"><h5 class="card-title mb-3">한국 만화 박물관</h5></a>
+                            <p class="card-text mb-0">주소 : 경기 부천시 길주로1<br><br>연락처 : 032-310-3090
+                                <br><br>관람시간 : 10:00 - 18:00 (월요일 휴무) <br><br>관람료 : 5000원 </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-5">
+                    <div class="card h-100 shadow border-0">
+                        <img class="card-img-top" src="https://d2mgzmtdeipcjp.cloudfront.net/files/good/2021/08/23/16297085559374.jpg" alt="..." />
+                        <div class="card-body p-4">
+                            <div class="badge bg-primary bg-gradient rounded-pill mb-2">아이와 가면 좋은 박물관</div>
+                            <a class="text-decoration-none link-dark stretched-link" href="#!"><h5 class="card-title mb-3">바니베어 박물관</h5></a>
+                            <p class="card-text mb-0">주소 : 경북 경주시 보문로 280-34<br><br>연락처 : 054-746-1991
+                                <br><br>관람시간 : 10:00 - 20:00 <br><br>관람료 : 12000원</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Call to action-->
+        </div>
+    </section>
+</main>
+<!-- Footer-->
+<footer class="bg-dark py-4 mt-auto">
+    <div class="container px-5">
+        <div class="row align-items-center justify-content-between flex-column flex-sm-row">
+            <div class="col-auto"><div class="small m-0 text-white">캡스톤 디자인 &copy; 박물관 히치하이커를 위한 안내서 </div></div>
+            <div class="col-auto">
+                <a class="link-light small" >20178044 윤상용</a>
+                <span class="text-white mx-1">&middot;</span>
+                <a class="link-light small">20182652 이대성</a>
+                <span class="text-white mx-1">&middot;</span>
+                <a class="link-light small">20182662 현혜윤</a>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script src="js/scripts.js"></script>
+</body>
+</html>
